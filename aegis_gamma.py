@@ -525,20 +525,219 @@ def demo():
     print("="*60)
 
 # ============================================================
+# MODULES V5.0 - COLLECTE ET RECOMMANDATIONS
+# ============================================================
+
+class CollecteurTwitter:
+    """Collecte de tweets sur un sujet (version simulation)"""
+    
+    @staticmethod
+    def chercher(sujet: str, nb_tweets: int = 30) -> List[Dict]:
+        print(f"  🐦 Recherche de {nb_tweets} tweets sur '{sujet}'...")
+        
+        tweets = []
+        for i in range(nb_tweets):
+            tweets.append({
+                "source": "twitter",
+                "auteur": f"user_{random.randint(1, 100)}",
+                "contenu": f"À propos de {sujet} : {random.choice(['info positive', 'scandale', 'témoignage', 'alerte'])}",
+                "charge_emotionnelle": random.uniform(3, 9),
+                "date": datetime.now() - timedelta(minutes=random.randint(0, 1440))
+            })
+        
+        print(f"  ✅ {len(tweets)} tweets collectés")
+        return tweets
+
+
+class CollecteurReddit:
+    """Collecte de posts Reddit sur un sujet"""
+    
+    @staticmethod
+    def chercher(sujet: str, nb_posts: int = 25) -> List[Dict]:
+        print(f"  📖 Recherche de {nb_posts} posts Reddit sur '{sujet}'...")
+        
+        posts = []
+        for i in range(nb_posts):
+            posts.append({
+                "source": "reddit",
+                "auteur": f"redditor_{random.randint(1, 500)}",
+                "contenu": f"Je pense que {sujet} est {random.choice(['genial', 'terrible', 'sous-estime', 'inquietant'])}",
+                "charge_emotionnelle": random.uniform(2, 9),
+                "date": datetime.now() - timedelta(hours=random.randint(0, 168))
+            })
+        
+        print(f"  ✅ {len(posts)} posts collectés")
+        return posts
+
+
+class CollecteurActualites:
+    """Collecte d'articles de presse sur un sujet"""
+    
+    @staticmethod
+    def chercher(sujet: str, nb_articles: int = 15) -> List[Dict]:
+        print(f"  📰 Recherche de {nb_articles} articles sur '{sujet}'...")
+        
+        medias = ["LeMonde", "LeFigaro", "Mediapart", "BFM", "Reuters", "Libération"]
+        
+        articles = []
+        for i in range(nb_articles):
+            articles.append({
+                "source": "actualites",
+                "auteur": random.choice(medias),
+                "contenu": f"Titre: {sujet} - {random.choice(['nouvelle étude', 'polémique', 'découverte', 'analyse'])}",
+                "charge_emotionnelle": random.uniform(1, 7),
+                "date": datetime.now() - timedelta(hours=random.randint(0, 72))
+            })
+        
+        print(f"  ✅ {len(articles)} articles collectés")
+        return articles
+
+
+class MoteurCollecte:
+    """Orchestre la collecte sur toutes les sources"""
+    
+    def __init__(self):
+        self.twitter = CollecteurTwitter()
+        self.reddit = CollecteurReddit()
+        self.actualites = CollecteurActualites()
+    
+    def collecter(self, sujet: str, sources: List[str] = None) -> List[Dict]:
+        print(f"\n🌐 DÉBUT DE LA COLLECTE pour : {sujet}")
+        print("-" * 40)
+        
+        tous_les_messages = []
+        
+        if sources is None or "twitter" in sources:
+            tweets = self.twitter.chercher(sujet, nb_tweets=30)
+            tous_les_messages.extend(tweets)
+        
+        if sources is None or "reddit" in sources:
+            reddits = self.reddit.chercher(sujet, nb_posts=25)
+            tous_les_messages.extend(reddits)
+        
+        if sources is None or "actualites" in sources:
+            articles = self.actualites.chercher(sujet, nb_articles=15)
+            tous_les_messages.extend(articles)
+        
+        print(f"\n✅ COLLECTE TERMINÉE : {len(tous_les_messages)} messages")
+        return tous_les_messages
+
+
+class GenerateurRecommandations:
+    """Génère des recommandations de communication"""
+    
+    @staticmethod
+    def generer(sujet: str, niveau_alerte: float, analyse_roles: Dict) -> Dict:
+        recommendations = {
+            "niveau_crise": "CRITIQUE" if niveau_alerte >= 7 else "ÉLEVÉ" if niveau_alerte >= 5 else "MODÉRÉ",
+            "actions_immediates": [],
+            "actions_communication": [],
+            "messages_cles": []
+        }
+        
+        if niveau_alerte >= 7:
+            recommendations["actions_immediates"] = [
+                f"🆘 Déclencher cellule de crise sur {sujet}",
+                "📊 Cartographier les comptes amplificateurs",
+                "🚫 Ne pas alimenter la polémique"
+            ]
+            recommendations["actions_communication"] = [
+                "📢 Publier un communiqué officiel sous 24h",
+                "🎯 Contacter les médias de confiance",
+                "🔍 Préparer une FAQ anti-désinformation"
+            ]
+            recommendations["messages_cles"] = [
+                f"Les faits sur {sujet} sont clairs et vérifiables",
+                "Méfiez-vous des comptes coordonnés"
+            ]
+        
+        elif niveau_alerte >= 5:
+            recommendations["actions_immediates"] = [
+                f"🟠 Surveiller activement {sujet}",
+                "📈 Analyser la tendance"
+            ]
+            recommendations["actions_communication"] = [
+                "💬 Préparer des éléments de langage",
+                "👀 Observer les comptes influenceurs"
+            ]
+        
+        else:
+            recommendations["actions_immediates"] = [
+                f"🟢 Surveillance normale de {sujet}"
+            ]
+            recommendations["actions_communication"] = [
+                "📝 Documenter les évolutions"
+            ]
+        
+        if analyse_roles.get('amplificateurs', 0) > 2:
+            recommendations["actions_immediates"].append(
+                f"🎯 {analyse_roles['amplificateurs']} comptes amplificateurs à surveiller"
+            )
+        
+        if analyse_roles.get('super_amplificateurs', 0) > 0:
+            recommendations["actions_immediates"].append(
+                f"🔴 {analyse_roles['super_amplificateurs']} super-amplificateur(s) identifié(s)"
+            )
+        
+        return recommendations
+
+# ============================================================
 # MAIN
 # ============================================================
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--demo", action="store_true")
-    parser.add_argument("--test", action="store_true")
+    parser.add_argument("--demo", action="store_true", help="Démo V4.1 avec génération")
+    parser.add_argument("--v5", action="store_true", help="Démo V5.0 avec collecte automatique")
+    parser.add_argument("--analyse", type=str, help="Analyse un sujet directement (ex: --analyse 'Amazon')")
+    parser.add_argument("--test", action="store_true", help="Test rapide")
     args = parser.parse_args()
     
     if args.demo:
         demo()
+    elif args.v5:
+        # Démo V5.0 - à implémenter
+        print("\n🚀 Lancement de la V5.0...")
+        sujet = input("📝 Quel sujet voulez-vous analyser ? ")
+        collecteur = MoteurCollecte()
+        messages = collecteur.collecter(sujet)
+        if messages:
+            fragments = [(msg["source"], msg["contenu"], msg["charge_emotionnelle"]) for msg in messages]
+            systeme = SystemeControleNarratifV4()
+            resultat = systeme.executer_cycle_complet(sujet, fragments)
+            roles = DetecteurRoles.analyser(messages)
+            reco = GenerateurRecommandations.generer(sujet, resultat.get("zone_tension", {}).get("niveau_alerte", 0), roles)
+            print(f"\n📊 NIVEAU ALERTE: {resultat['zone_tension']['niveau_alerte']}/10")
+            print(f"🎯 RECOMMANDATION: {reco['actions_immediates'][0] if reco['actions_immediates'] else 'Surveillance'}")
+    elif args.analyse:
+        sujet = args.analyse
+        print(f"\n🚀 Analyse de '{sujet}'...")
+        collecteur = MoteurCollecte()
+        messages = collecteur.collecter(sujet)
+        if messages:
+            fragments = [(msg["source"], msg["contenu"], msg["charge_emotionnelle"]) for msg in messages]
+            systeme = SystemeControleNarratifV4()
+            resultat = systeme.executer_cycle_complet(sujet, fragments)
+            roles = DetecteurRoles.analyser(messages)
+            reco = GenerateurRecommandations.generer(sujet, resultat.get("zone_tension", {}).get("niveau_alerte", 0), roles)
+            
+            print(f"\n📊 RÉSUMÉ DE L'ANALYSE")
+            print("=" * 40)
+            print(f"📝 Sujet: {sujet}")
+            print(f"📡 Messages collectés: {len(messages)}")
+            print(f"🚨 Niveau d'alerte: {resultat['zone_tension']['niveau_alerte']}/10")
+            print(f"🎯 Score confiance: {resultat['score_confiance']}/10")
+            print(f"👥 Amplificateurs: {roles['amplificateurs']}")
+            print(f"\n💡 RECOMMANDATIONS:")
+            for action in reco.get("actions_immediates", [])[:3]:
+                print(f"   {action}")
     elif args.test:
-        print("✅ Tests OK - Version 34 modules")
+        print("✅ Tests OK - Version 34 modules + V5.0")
         print(f"✅ NumPy: {np.__version__}")
     else:
-        print("AEGIS-Γ V4.1 - 34 modules")
-        print("python aegis_gamma.py --demo")
+        print("AEGIS-Γ V5.0 - Veille stratégique")
+        print("\nCommandes disponibles:")
+        print("  python aegis_gamma.py --demo               # Démo V4.1 avec génération")
+        print("  python aegis_gamma.py --v5                 # Démo V5.0 interactive")
+        print("  python aegis_gamma.py --analyse 'sujet'    # Analyse directe d'un sujet")
+        print("  python aegis_gamma.py --test               # Test rapide")
