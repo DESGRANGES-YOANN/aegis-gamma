@@ -2,24 +2,18 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>AEGIS-Γ | Console d'analyse narrative</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEGIS-Γ | Veille stratégique en temps réel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', sans-serif;
             background: radial-gradient(circle at top, rgba(76, 201, 240, 0.06), transparent 45%), linear-gradient(135deg, #05070b 0%, #0a1017 45%, #05070b 100%);
             color: #e5e9f0;
             line-height: 1.5;
             min-height: 100vh;
         }
-
         body::before {
             content: "";
             position: fixed;
@@ -28,7 +22,6 @@
             pointer-events: none;
             z-index: 0;
         }
-
         .grid-bg {
             position: fixed;
             top: 0;
@@ -40,31 +33,7 @@
             pointer-events: none;
             z-index: 0;
         }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        @keyframes pulseScan {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; text-shadow: 0 0 12px rgba(239,68,68,0.5); }
-            100% { opacity: 0.5; }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes barRise {
-            from { height: 0; }
-            to { height: var(--target-height); }
-        }
-
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
         .header {
             padding: 1.2rem 0 0.8rem;
             display: flex;
@@ -73,18 +42,10 @@
             flex-wrap: wrap;
             gap: 1rem;
             border-bottom: 1px solid rgba(76, 201, 240, 0.2);
-            background: linear-gradient(180deg, rgba(0,0,0,0.3), transparent);
         }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
+        .logo-area { display: flex; align-items: center; gap: 0.75rem; }
         .logo-icon {
-            width: 34px;
-            height: 34px;
+            width: 34px; height: 34px;
             border: 1.5px solid #4cc9f0;
             border-radius: 6px;
             display: flex;
@@ -96,21 +57,8 @@
             background: rgba(76, 201, 240, 0.05);
             box-shadow: 0 0 8px rgba(76, 201, 240, 0.12);
         }
-
-        .logo-text {
-            font-size: 1.25rem;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-            color: #e5e9f0;
-            text-shadow: 0 0 6px rgba(255,255,255,0.03);
-        }
-
-        .logo-gamma {
-            font-size: 1rem;
-            font-weight: 500;
-            color: #7b8ba0;
-        }
-
+        .logo-text { font-size: 1.25rem; font-weight: 600; color: #e5e9f0; }
+        .logo-gamma { font-size: 1rem; font-weight: 500; color: #7b8ba0; }
         .version-badge {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.6rem;
@@ -120,30 +68,10 @@
             border-radius: 4px;
             color: #5a6a7a;
         }
-
-        .nav-links {
-            display: flex;
-            gap: 1.2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: #7b8ba0;
-            text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: #4cc9f0;
-        }
-
-        .hero {
-            padding: 1.5rem 0 1rem;
-            border-bottom: 1px solid #1e2a3a;
-        }
-
+        .nav-links { display: flex; gap: 1.2rem; align-items: center; }
+        .nav-links a { color: #7b8ba0; text-decoration: none; font-size: 0.75rem; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: #4cc9f0; }
+        .hero { padding: 1.5rem 0 1rem; border-bottom: 1px solid #1e2a3a; }
         .hero-badge {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.65rem;
@@ -154,57 +82,35 @@
             padding: 0.15rem 0.6rem;
             border-radius: 4px;
             margin-bottom: 0.75rem;
-            box-shadow: 0 0 6px rgba(76, 201, 240, 0.08);
         }
-
-        .hero h1 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-            color: #e5e9f0;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 0 8px rgba(255,255,255,0.03);
-        }
-
-        .hero p {
-            font-size: 0.85rem;
-            color: #7b8ba0;
-            max-width: 520px;
-        }
-
-        .disclaimer {
-            background: rgba(13, 20, 28, 0.8);
-            border-left: 2px solid #fbbf24;
-            padding: 0.5rem 0.75rem;
-            font-size: 0.65rem;
-            color: #fbbf24;
-            margin: 0.75rem 0;
+        .hero h1 { font-size: 1.8rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 0.5rem; }
+        .hero p { font-size: 0.85rem; color: #7b8ba0; max-width: 520px; }
+        .live-badge {
+            display: inline-block;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid #ef4444;
+            border-radius: 4px;
+            padding: 0.1rem 0.4rem;
+            font-size: 0.55rem;
             font-family: 'JetBrains Mono', monospace;
+            color: #ef4444;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+            animation: pulse 1.5s ease-in-out infinite;
         }
-
-        .legal-disclaimer {
-            background: rgba(13, 20, 28, 0.8);
-            border-left: 2px solid #4cc9f0;
-            padding: 0.5rem 0.75rem;
-            font-size: 0.6rem;
-            color: #7b8ba0;
-            margin: 0.75rem 0;
-            font-family: 'JetBrains Mono', monospace;
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; box-shadow: 0 0 6px #ef4444; }
         }
-
-        .main-card, .metric-card, .plan-card, .feature, .timeline-card, .sources-card, .modules-card {
+        .main-card {
             background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)), #0b1118;
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.02), 0 6px 20px rgba(0,0,0,0.4);
             backdrop-filter: blur(4px);
-        }
-
-        .main-card {
             border: 1px solid rgba(76, 201, 240, 0.12);
             border-radius: 6px;
             padding: 1.25rem;
             margin: 1.25rem 0;
         }
-
         .input-label {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.65rem;
@@ -214,13 +120,7 @@
             color: #4cc9f0;
             margin-bottom: 0.5rem;
         }
-
-        .input-wrapper {
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
+        .input-wrapper { display: flex; gap: 0.75rem; flex-wrap: wrap; }
         .input-wrapper input {
             flex: 1;
             padding: 0.7rem 1rem;
@@ -232,12 +132,7 @@
             font-family: 'JetBrains Mono', monospace;
             transition: all 0.2s;
         }
-
-        .input-wrapper input:focus {
-            outline: none;
-            border-color: #4cc9f0;
-        }
-
+        .input-wrapper input:focus { outline: none; border-color: #4cc9f0; }
         .btn-primary {
             background: transparent;
             border: 1px solid #4cc9f0;
@@ -250,698 +145,151 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-
-        .btn-primary:hover {
-            background: rgba(76, 201, 240, 0.08);
-            box-shadow: 0 0 10px rgba(76, 201, 240, 0.12);
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .metric-card {
-            border: 1px solid rgba(76, 201, 240, 0.1);
-            border-radius: 6px;
-            padding: 0.75rem;
-            transition: all 0.2s;
-        }
-
-        .metric-value {
-            font-size: 1.6rem;
-            font-weight: 600;
-            font-family: 'JetBrains Mono', monospace;
-            line-height: 1.2;
-            text-shadow: 0 0 6px rgba(255,255,255,0.03);
-            transition: text-shadow 0.2s;
-        }
-
-        .metric-critical { color: #ef4444; }
-        .metric-critical .metric-value { animation: pulseScan 2s ease-in-out infinite; }
-        .metric-high { color: #f97316; }
-        .metric-medium { color: #eab308; }
-        .metric-low { color: #10b981; }
-
-        .metric-label {
-            font-size: 0.6rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #7b8ba0;
-            margin-top: 0.35rem;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 0.15rem 0.5rem;
-            border-radius: 3px;
-            font-size: 0.65rem;
-            font-weight: 600;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .status-critical { background: rgba(239,68,68,0.2); border: 1px solid #ef4444; color: #ef4444; }
-        .status-high { background: rgba(249,115,22,0.2); border: 1px solid #f97316; color: #f97316; }
-        .status-medium { background: rgba(234,179,8,0.2); border: 1px solid #eab308; color: #eab308; }
-        .status-low { background: rgba(16,185,129,0.2); border: 1px solid #10b981; color: #10b981; }
-
-        .row-2cols {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.75rem;
-            margin: 0.75rem 0;
-        }
-
-        .row-3cols {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.75rem;
-            margin: 0.75rem 0;
-        }
-
-        .timeline-card, .sources-card, .modules-card {
-            border: 1px solid rgba(76, 201, 240, 0.08);
-            border-radius: 6px;
-            padding: 0.75rem;
-        }
-
-        .card-title {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.6rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #4cc9f0;
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-bars {
-            display: flex;
-            align-items: flex-end;
-            gap: 4px;
-            height: 60px;
-        }
-
-        .timeline-bar {
-            flex: 1;
-            background: #4cc9f0;
-            opacity: 0.6;
-            border-radius: 2px;
-            transition: height 0.3s;
-            height: 0;
-            animation: barRise 0.5s ease-out forwards;
-        }
-
-        .sources-badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
-        }
-
-        .source-badge {
-            background: #11161d;
-            border: 1px solid #1e2a3a;
-            padding: 0.2rem 0.5rem;
-            border-radius: 3px;
-            font-size: 0.6rem;
-            font-family: 'JetBrains Mono', monospace;
-            color: #7b8ba0;
-        }
-
-        .modules-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
-        }
-
-        .module-tag {
-            background: rgba(76, 201, 240, 0.08);
-            border: 1px solid rgba(76, 201, 240, 0.2);
-            padding: 0.2rem 0.5rem;
-            border-radius: 3px;
-            font-size: 0.55rem;
-            font-family: 'JetBrains Mono', monospace;
-            color: #4cc9f0;
-        }
-
-        .expand-btn {
-            background: transparent;
-            border: 1px solid #1e2a3a;
-            padding: 0.4rem 1rem;
-            border-radius: 4px;
-            font-size: 0.65rem;
-            font-family: 'JetBrains Mono', monospace;
-            color: #7b8ba0;
-            cursor: pointer;
-            margin-top: 0.75rem;
-            width: 100%;
-            transition: all 0.2s;
-        }
-
-        .expand-btn:hover {
-            border-color: #4cc9f0;
-            color: #4cc9f0;
-        }
-
-        .detail-report {
-            display: none;
-            margin-top: 0.75rem;
-            padding-top: 0.75rem;
-            border-top: 1px solid #1e2a3a;
-        }
-
-        .detail-report.show {
-            display: block;
-        }
-
-        .cluster-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .cluster-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.7rem;
-            padding: 0.3rem 0;
-            border-bottom: 1px solid #0d141c;
-        }
-
-        .plan-card {
-            border: 1px solid rgba(76, 201, 240, 0.08);
-            border-radius: 6px;
-            padding: 0.75rem;
-            margin-top: 0.75rem;
-        }
-
-        .plan-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid #1e2a3a;
-            position: relative;
-        }
-
-        .plan-header::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, rgba(76,201,240,0.3), transparent);
-        }
-
-        .plan-icon {
-            font-size: 0.9rem;
-        }
-
-        .plan-title {
-            font-size: 0.7rem;
-            font-weight: 600;
-            font-family: 'JetBrains Mono', monospace;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-            color: #4cc9f0;
-        }
-
-        .plan-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
-        }
-
-        .plan-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            padding: 0.4rem 0;
-            border-bottom: 1px solid #0d141c;
-        }
-
-        .plan-action {
-            font-size: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .plan-meta {
-            font-size: 0.6rem;
-            font-family: 'JetBrains Mono', monospace;
-            color: #7b8ba0;
-        }
-
-        .tag {
-            background: #11161d;
-            border: 1px solid #1e2a3a;
-            padding: 0.1rem 0.4rem;
-            border-radius: 3px;
-            font-size: 0.55rem;
-        }
-
-        .tag-critical { border-color: #ef4444; color: #ef4444; }
-        .tag-high { border-color: #f97316; color: #f97316; }
-        .tag-medium { border-color: #eab308; color: #eab308; }
-
-        .explication-box {
-            background: rgba(13, 20, 28, 0.9);
-            border-left: 2px solid #4cc9f0;
-            padding: 0.6rem 0.8rem;
-            margin: 0.75rem 0;
-        }
-
-        .explication-title {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.55rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #4cc9f0;
-            margin-bottom: 0.35rem;
-        }
-
-        .explication-list {
-            list-style: none;
-            font-size: 0.7rem;
-            color: #7b8ba0;
-        }
-
-        .explication-list li {
-            margin: 0.2rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            animation: fadeIn 0.2s ease-out;
-        }
-
-        .positive { color: #10b981; }
-        .negative { color: #ef4444; }
-
-        .contact-form {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid #1e2a3a;
-        }
-
-        .contact-form input, .contact-form textarea {
-            width: 100%;
-            padding: 0.6rem;
-            margin-bottom: 0.5rem;
+        .btn-primary:hover { background: rgba(76, 201, 240, 0.08); box-shadow: 0 0 10px rgba(76, 201, 240, 0.12); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+        .results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+        .result-card {
             background: #06090e;
             border: 1px solid #1e2a3a;
-            border-radius: 4px;
-            color: #e5e9f0;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-        }
-
-        .contact-form input:focus, .contact-form textarea:focus {
-            outline: none;
-            border-color: #4cc9f0;
-        }
-
-        .contact-form button {
-            background: #4cc9f0;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            color: #0a0f1a;
-            font-weight: bold;
-            cursor: pointer;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.75rem;
-            margin: 1rem 0;
-        }
-
-        .feature {
-            border: 1px solid rgba(76, 201, 240, 0.08);
             border-radius: 6px;
-            padding: 0.6rem;
-            text-align: center;
-            font-size: 0.65rem;
-            color: #7b8ba0;
+            padding: 0.75rem;
         }
-
-        .feature span {
-            display: block;
-            font-size: 1rem;
-            margin-bottom: 0.2rem;
-        }
-
-        .footer {
-            padding: 1rem 0;
-            border-top: 1px solid #1e2a3a;
-            margin-top: 1rem;
-            text-align: center;
-            font-size: 0.65rem;
-            color: #5a6a7a;
-        }
-
-        .footer a {
-            color: #4cc9f0;
-            text-decoration: none;
-        }
-
-        .loader {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border: 1px solid #4cc9f0;
-            border-radius: 50%;
-            border-top-color: transparent;
-            animation: spin 0.6s linear infinite;
-            margin-right: 6px;
-            vertical-align: middle;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .result-section {
-            display: none;
-        }
-
-        .result-section.show {
-            display: block;
-        }
-
-        .result-section.show > * {
-            animation: fadeIn 0.2s ease-out;
-        }
-
+        .article-title { font-size: 0.8rem; font-weight: 500; margin-bottom: 0.25rem; }
+        .article-source { font-size: 0.6rem; color: #4cc9f0; font-family: 'JetBrains Mono', monospace; }
+        .article-sentiment { font-size: 0.6rem; margin-top: 0.25rem; padding: 0.15rem 0.3rem; border-radius: 3px; display: inline-block; }
+        .positive { background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .negative { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .neutral { background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .loader { display: inline-block; width: 12px; height: 12px; border: 1px solid #4cc9f0; border-radius: 50%; border-top-color: transparent; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .result-section { display: none; }
+        .result-section.show { display: block; animation: fadeIn 0.2s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .footer { padding: 1rem 0; border-top: 1px solid #1e2a3a; margin-top: 1rem; text-align: center; font-size: 0.65rem; color: #5a6a7a; }
+        .footer a { color: #4cc9f0; text-decoration: none; }
         @media (max-width: 768px) {
             .container { padding: 0 1rem; }
-            .hero h1 { font-size: 1.4rem; }
-            .metrics-grid { grid-template-columns: repeat(2, 1fr); }
-            .row-2cols { grid-template-columns: 1fr; }
-            .row-3cols { grid-template-columns: 1fr; }
-            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .results-grid { grid-template-columns: 1fr; }
             .header { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
 <body>
     <div class="grid-bg"></div>
-
     <div class="container">
         <div class="header">
             <div>
                 <div class="logo-area">
                     <div class="logo-icon">Γ</div>
-                    <div>
-                        <span class="logo-text">AEGIS</span>
-                        <span class="logo-gamma">-Γ</span>
-                    </div>
-                    <div class="version-badge">v5.1</div>
+                    <div><span class="logo-text">AEGIS</span><span class="logo-gamma">-Γ</span></div>
+                    <div class="version-badge">v5.2</div>
                 </div>
             </div>
             <div class="nav-links">
                 <a href="#">Console</a>
                 <a href="https://github.com/DESGRANGES-YOANN/aegis-gamma" target="_blank">GitHub</a>
-                <button class="btn-primary" style="padding: 0.35rem 1rem; font-size: 0.7rem;" onclick="document.getElementById('contactSection').scrollIntoView({behavior:'smooth'})">Contact</button>
             </div>
         </div>
 
         <div class="hero">
-            <div class="hero-badge">ANALYSE DE SIGNAUX NARRATIFS // COORDINATION</div>
-            <h1>Console d'analyse narrative</h1>
-            <p>Détection de polarisation, amplification et signaux faibles</p>
-        </div>
-
-        <div class="legal-disclaimer">
-            ⚖️ PROTOTYPE DE DÉMONSTRATION — Simulation visuelle et UX. Les scores affichés ne constituent pas une mesure réelle de manipulation, coordination ou influence. Résultats à des fins d'interface uniquement.
-        </div>
-
-        <div class="disclaimer">
-            ⚠️ DÉMONSTRATION — Analyse basée sur signaux détectés (simulation)
+            <div class="hero-badge">VEILLE STRATÉGIQUE EN TEMPS RÉEL <span class="live-badge">LIVE</span></div>
+            <h1>Analyse de l'actualité en temps réel</h1>
+            <p>Données issues de NewsAPI — articles réels de la presse mondiale (Le Monde, Reuters, BBC...)</p>
         </div>
 
         <div class="main-card">
             <div class="input-label">› SUJET_ANALYSE</div>
             <div class="input-wrapper">
-                <input type="text" id="sujet" placeholder="ex: Amazon recyclage, ChatGPT, Président Macron, vaccins" value="Président Macron">
+                <input type="text" id="sujet" placeholder="ex: Amazon, écologie, intelligence artificielle, politique..." value="intelligence artificielle">
                 <button class="btn-primary" id="analyserBtn">EXECUTER</button>
             </div>
 
             <div id="resultat" class="result-section">
-                <!-- Métriques (4 cartes) -->
-                <div class="metrics-grid" id="metricsGrid"></div>
-
-                <!-- 3 colonnes : Sources / Timeline / Modules -->
-                <div class="row-3cols">
-                    <div class="sources-card" id="sourcesCard"></div>
-                    <div class="timeline-card" id="timelineCard"></div>
-                    <div class="modules-card" id="modulesCard"></div>
-                </div>
-
-                <!-- Facteurs -->
-                <div id="explicationBox" class="explication-box" style="display: none;">
-                    <div class="explication-title">[FACTEURS_IDENTIFIES]</div>
-                    <ul class="explication-list" id="explicationList"></ul>
-                </div>
-
-                <!-- Expandable detailed report -->
-                <div class="plan-card" style="margin-top: 0.5rem;">
-                    <button class="expand-btn" id="expandBtn">› EXPAND_REPORT</button>
-                    <div id="detailReport" class="detail-report">
-                        <div class="cluster-list" id="clusterList"></div>
-                    </div>
-                </div>
-
-                <!-- Plan d'action -->
-                <div id="planContainer"></div>
+                <div class="input-label" style="margin-top: 1rem;">› ARTICLES RÉCENTS</div>
+                <div class="results-grid" id="articlesGrid"></div>
+                <div id="noArticleMessage" style="text-align: center; padding: 2rem; color: #7b8ba0; display: none;">Aucun article trouvé pour ce sujet.</div>
             </div>
         </div>
 
-        <!-- Formulaire de contact -->
-        <div id="contactSection" class="main-card" style="margin-top: 1rem;">
-            <div class="input-label">› CONTACT</div>
-            <form action="https://formspree.io/f/mkgwgkqp" method="POST" class="contact-form">
-                <input type="email" name="email" placeholder="Votre email" required>
-                <textarea name="message" placeholder="Votre message (démo, question, collaboration...)" rows="3" required></textarea>
-                <button type="submit">ENVOYER</button>
-            </form>
-            <p style="font-size: 0.65rem; color: #5a6a7a; margin-top: 0.5rem;">📩 ou directement : <strong>desgranges06@gmail.com</strong></p>
-        </div>
-
-        <div class="features-grid">
-            <div class="feature"><span>🔬</span>34 modules</div>
-            <div class="feature"><span>🎯</span>Détection coordination</div>
-            <div class="feature"><span>📊</span>Intensité signal</div>
-            <div class="feature"><span>📋</span>Interprétabilité</div>
-        </div>
-
         <div class="footer">
-            <p>🔗 <a href="https://github.com/DESGRANGES-YOANN/aegis-gamma" target="_blank">GitHub</a> — AEGIS-Γ — Console d'analyse narrative — Démonstration v5.1</p>
+            <p>🔗 <a href="https://github.com/DESGRANGES-YOANN/aegis-gamma" target="_blank">GitHub</a> — AEGIS-Γ — Données en temps réel via <strong>NewsAPI</strong> | v5.2</p>
         </div>
     </div>
 
     <script>
-        const modulesList = ["NLP", "Coordination", "Temporal", "Clustering", "Emotion", "Amplification", "Diversité", "Polarisation"];
+        const API_KEY = 'a171bca004084e3780e15c6f24f9a22e';
 
-        const sujetsDB = {
-            "amazon recyclage": {
-                niveau: 5.2, confiance: 5.6, intensite: "Modérée", couleur: "metric-medium", status: "MEDIUM",
-                facteurs: ["+ Activité temporelle concentrée", "+ Répétition lexicale modérée", "- Diversité des sources acceptable"],
-                sources: ["Twitter", "Reddit", "Presse économique"], timeline: [15, 22, 28, 25, 20, 18, 15],
-                clusters: ["Recyclage plastique (42%)", "Emballages (28%)", "Critique greenwashing (18%)", "Logistique (12%)"],
-                diversite: 68
-            },
-            "chatgpt": {
-                niveau: 6.1, confiance: 6.0, intensite: "Significative", couleur: "metric-high", status: "ELEVATED",
-                facteurs: ["+ Forte activité éditoriale", "+ Amplification détectée", "+ Polarisation croissante", "- Pas de coordination forte"],
-                sources: ["Twitter", "Reddit", "LinkedIn", "Forums tech"], timeline: [25, 38, 45, 52, 48, 40, 35],
-                clusters: ["Performance IA (38%)", "Éthique (28%)", "Open source vs propriétaire (18%)", "Remplacement emplois (16%)"],
-                diversite: 72
-            },
-            "président macron": {
-                niveau: 6.9, confiance: 6.5, intensite: "Significative", couleur: "metric-high", status: "ELEVATED",
-                facteurs: ["+ Coordination modérée", "+ Charge émotionnelle élevée", "+ Répétition thématique", "- Source unique dominante"],
-                sources: ["Twitter", "TikTok", "Presse nationale", "Forums politiques"], timeline: [30, 45, 58, 62, 55, 48, 40],
-                clusters: ["Politique économique (35%)", "Immigration (28%)", "Réformes sociales (22%)", "Communication (15%)"],
-                diversite: 55
-            },
-            "macron": {
-                niveau: 6.9, confiance: 6.5, intensite: "Significative", couleur: "metric-high", status: "ELEVATED",
-                facteurs: ["+ Coordination modérée", "+ Charge émotionnelle élevée", "+ Répétition thématique", "- Source unique dominante"],
-                sources: ["Twitter", "TikTok", "Presse nationale", "Forums politiques"], timeline: [30, 45, 58, 62, 55, 48, 40],
-                clusters: ["Politique économique (35%)", "Immigration (28%)", "Réformes sociales (22%)", "Communication (15%)"],
-                diversite: 55
-            },
-            "vaccins": {
-                niveau: 8.8, confiance: 9.0, intensite: "Très élevée", couleur: "metric-critical", status: "CRITICAL",
-                facteurs: ["+ Coordination multi-comptes forte", "+ Pic temporel anormal", "+ Faible diversité de sources", "+ Charge émotionnelle maximale"],
-                sources: ["Twitter", "Facebook", "Telegram", "Forums santé"], timeline: [45, 72, 88, 85, 92, 78, 65],
-                clusters: ["Efficacité vaccins (32%)", "Effets secondaires (28%)", "Passe sanitaire (24%)", "Théories alternatives (16%)"],
-                diversite: 34
-            },
-            "jeux olympiques 2024": {
-                niveau: 4.8, confiance: 4.5, intensite: "Faible", couleur: "metric-low", status: "MONITORING",
-                facteurs: ["+ Activité dispersée", "+ Sources diversifiées", "- Aucun pic temporel", "- Absence de coordination"],
-                sources: ["Twitter", "Presse sportive", "Reddit"], timeline: [12, 15, 14, 18, 16, 14, 12],
-                clusters: ["Transport (34%)", "Budget (28%)", "Sécurité (22%)", "Héritage (16%)"],
-                diversite: 82
-            }
-        };
-
-        function hashCode(str) {
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                hash = ((hash << 5) - hash) + str.charCodeAt(i);
-                hash |= 0;
-            }
-            return Math.abs(hash);
-        }
-
-        function genererResultatSimule(sujet) {
-            const seed = hashCode(sujet.toLowerCase());
-            const niveau = 3 + (seed % 70) / 10;
-            const niveauClamped = Math.min(9.5, Math.max(2, niveau));
-            let intensite = "Modérée", couleur = "metric-medium", status = "MEDIUM";
-            if (niveauClamped >= 7) { intensite = "Très élevée"; couleur = "metric-critical"; status = "CRITICAL"; }
-            else if (niveauClamped >= 5) { intensite = "Significative"; couleur = "metric-high"; status = "ELEVATED"; }
-            else { intensite = "Faible"; couleur = "metric-low"; status = "MONITORING"; }
+        function analyserSentiment(title) {
+            const titre = title.toLowerCase();
+            const posMots = ['bon', 'excellent', 'positif', 'révolution', 'progrès', 'avancée', 'futur', 'prometteur', 'innovation', 'croissance', 'succès'];
+            const negMots = ['crise', 'danger', 'menace', 'problème', 'risque', 'échec', 'critique', 'alerte', 'violation', 'attaque', 'chute', 'perte'];
             
-            const confiance = (niveauClamped * 0.7 + (seed % 30) / 20).toFixed(1);
-            const facteurs = [
-                "+ Activité détectée",
-                niveauClamped >= 6 ? "+ Polarisation notable" : "- Polarisation faible",
-                niveauClamped >= 5 ? "+ Amplification potentielle" : "- Pas d'amplification",
-                niveauClamped >= 4 ? "+ Sources multiples" : "- Sources limitées"
-            ];
-            const sourcesList = ["Twitter", "Reddit"];
-            if (niveauClamped >= 5) sourcesList.push("TikTok", "Presse");
-            else sourcesList.push("Forums");
-            const timeline = [15 + seed % 20, 25 + seed % 25, 35 + seed % 30, 40 + seed % 20, 35 + seed % 15, 28 + seed % 10, 20 + seed % 10];
-            const diversite = 40 + (seed % 50);
+            let posScore = 0, negScore = 0;
+            posMots.forEach(m => { if (titre.includes(m)) posScore++; });
+            negMots.forEach(m => { if (titre.includes(m)) negScore++; });
             
-            return { niveau: niveauClamped, confiance, intensite, couleur, status, facteurs, sources: sourcesList, timeline, clusters: ["Thème principal (45%)", "Thème secondaire (28%)", "Thème émergent (27%)"], diversite };
-        }
-
-        function getPlanHTML(niveau) {
-            if (niveau >= 7) {
-                return `
-                    <div class="plan-card">
-                        <div class="plan-header"><div class="plan-icon">🔴</div><div class="plan-title">ANALYSE APPROFONDIE RECOMMANDÉE</div></div>
-                        <div class="plan-list">
-                            <div class="plan-item"><span class="plan-action">📊 Renforcer l'analyse humaine</span><span class="plan-meta"><span class="tag tag-critical">IMMÉDIAT</span></span></div>
-                            <div class="plan-item"><span class="plan-action">📄 Produire un rapport de situation</span><span class="plan-meta"><span class="tag tag-high">24h</span></span></div>
-                            <div class="plan-item"><span class="plan-action">🔍 Vérifier les sources dominantes</span><span class="plan-meta"><span class="tag tag-medium">48h</span></span></div>
-                        </div>
-                    </div>
-                `;
-            } else if (niveau >= 5) {
-                return `
-                    <div class="plan-card">
-                        <div class="plan-header"><div class="plan-icon">🟠</div><div class="plan-title">SURVEILLANCE RENFORCÉE</div></div>
-                        <div class="plan-list">
-                            <div class="plan-item"><span class="plan-action">📈 Suivre l'évolution des signaux</span><span class="plan-meta"><span class="tag tag-high">7j</span></span></div>
-                            <div class="plan-item"><span class="plan-action">📊 Documenter les tendances émergentes</span><span class="plan-meta"><span class="tag">Continu</span></span></div>
-                        </div>
-                    </div>
-                `;
-            } else {
-                return `
-                    <div class="plan-card">
-                        <div class="plan-header"><div class="plan-icon">🟢</div><div class="plan-title">VEILLE INFORMATIONNELLE</div></div>
-                        <div class="plan-list">
-                            <div class="plan-item"><span class="plan-action">📝 Surveillance régulière</span><span class="plan-meta"><span class="tag">Hebdo</span></span></div>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        function renderTimeline(timeline) {
-            const maxVal = Math.max(...timeline, 1);
-            return `<div class="timeline-bars">${timeline.map((v, i) => `<div class="timeline-bar" style="animation-delay: ${i * 0.05}s; --target-height: ${(v / maxVal) * 50}px; height: ${(v / maxVal) * 50}px;"></div>`).join('')}</div>`;
+            if (posScore > negScore) return 'positif';
+            if (negScore > posScore) return 'negatif';
+            return 'neutre';
         }
 
         async function analyser() {
             const input = document.getElementById('sujet');
-            const sujetRaw = input.value.trim();
-            const sujet = sujetRaw.toLowerCase();
+            const sujet = input.value.trim();
             const btn = document.getElementById('analyserBtn');
             
             if (!sujet) return;
             
-            btn.innerHTML = '<span class="loader"></span> ANALYSE';
+            btn.innerHTML = '<span class="loader"></span> REQUÊTE API';
             btn.disabled = true;
             
-            await new Promise(r => setTimeout(r, 500));
-            
-            let result = sujetsDB[sujet];
-            if (!result) result = genererResultatSimule(sujet);
-            
-            // Metriques (4 cartes: alerte + confiance + intensite + diversite)
-            document.getElementById('metricsGrid').innerHTML = `
-                <div class="metric-card ${result.couleur}"><div class="metric-value">${result.niveau.toFixed(1)}/10</div><div class="metric-label">INTENSITÉ SIGNAL</div></div>
-                <div class="metric-card ${result.couleur}"><div class="metric-value">${result.confiance}/10</div><div class="metric-label">CONFIANCE ANALYSE</div></div>
-                <div class="metric-card ${result.couleur}"><div class="metric-value">${result.intensite}</div><div class="metric-label">COORDINATION</div></div>
-                <div class="metric-card ${result.couleur}"><div class="metric-value">${result.diversite}%</div><div class="metric-label">DIVERSITÉ SOURCES</div></div>
-            `;
-            
-            // Status badge
-            const statusClass = result.status === "CRITICAL" ? "status-critical" : (result.status === "ELEVATED" ? "status-high" : (result.status === "MEDIUM" ? "status-medium" : "status-low"));
-            document.getElementById('metricsGrid').innerHTML += `<div class="metric-card ${result.couleur}"><div class="status-badge ${statusClass}">● ${result.status}</div><div class="metric-label">STATUT ALERTE</div></div>`;
-            
-            // Sources
-            document.getElementById('sourcesCard').innerHTML = `
-                <div class="card-title">📡 SOURCES OSINT</div>
-                <div class="sources-badges">${result.sources.map(s => `<div class="source-badge">${s}</div>`).join('')}</div>
-            `;
-            
-            // Timeline
-            document.getElementById('timelineCard').innerHTML = `
-                <div class="card-title">📈 ACTIVITÉ TEMPORELLE (7j)</div>
-                ${renderTimeline(result.timeline)}
-            `;
-            
-            // Modules
-            document.getElementById('modulesCard').innerHTML = `
-                <div class="card-title">⚙️ MODULES ACTIFS</div>
-                <div class="modules-list">${modulesList.map(m => `<div class="module-tag">${m}</div>`).join('')}</div>
-            `;
-            
-            // Facteurs
-            const explicationList = document.getElementById('explicationList');
-            explicationList.innerHTML = result.facteurs.map(f => {
-                const isPositive = f.startsWith('+');
-                return `<li><span class="${isPositive ? 'positive' : 'negative'}">${isPositive ? '▲' : '▼'}</span> ${f.substring(2)}</li>`;
-            }).join('');
-            document.getElementById('explicationBox').style.display = 'block';
-            
-            // Clusters
-            const clusterList = document.getElementById('clusterList');
-            clusterList.innerHTML = result.clusters.map(c => `<div class="cluster-item"><span>${c.split('(')[0]}</span><span class="plan-meta">${c.match(/\(([^)]+)\)/)?.[1] || ''}</span></div>`).join('');
-            
-            document.getElementById('planContainer').innerHTML = getPlanHTML(result.niveau);
-            document.getElementById('resultat').classList.add('show');
+            try {
+                const url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(sujet)}&language=fr&sortBy=publishedAt&pageSize=6&apiKey=${API_KEY}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.status === 'error') {
+                    document.getElementById('articlesGrid').innerHTML = `<div class="result-card" style="grid-column:1/-1; text-align:center;">⚠️ Erreur API : ${data.message}. Vérifie ta clé API.</div>`;
+                    document.getElementById('resultat').classList.add('show');
+                    btn.innerHTML = 'EXECUTER';
+                    btn.disabled = false;
+                    return;
+                }
+                
+                const articles = data.articles || [];
+                
+                if (articles.length === 0) {
+                    document.getElementById('articlesGrid').innerHTML = '';
+                    document.getElementById('noArticleMessage').style.display = 'block';
+                } else {
+                    document.getElementById('noArticleMessage').style.display = 'none';
+                    const articlesHtml = articles.map(article => {
+                        const sentiment = analyserSentiment(article.title);
+                        return `
+                            <div class="result-card">
+                                <div class="article-title">${article.title || 'Sans titre'}</div>
+                                <div class="article-source">📰 ${article.source.name || 'Source inconnue'} • ${new Date(article.publishedAt).toLocaleDateString('fr-FR')}</div>
+                                <div class="article-sentiment ${sentiment}">🎯 Sentiment : ${sentiment === 'positif' ? 'Positif' : sentiment === 'negatif' ? 'Négatif' : 'Neutre'}</div>
+                            </div>
+                        `;
+                    }).join('');
+                    document.getElementById('articlesGrid').innerHTML = articlesHtml;
+                }
+                document.getElementById('resultat').classList.add('show');
+            } catch (error) {
+                document.getElementById('articlesGrid').innerHTML = `<div class="result-card" style="grid-column:1/-1; text-align:center;">❌ Erreur : ${error.message}</div>`;
+                document.getElementById('resultat').classList.add('show');
+            }
             
             btn.innerHTML = 'EXECUTER';
             btn.disabled = false;
         }
         
-        document.getElementById('expandBtn')?.addEventListener('click', () => {
-            document.getElementById('detailReport')?.classList.toggle('show');
-            const btn = document.getElementById('expandBtn');
-            if (btn) btn.textContent = btn.textContent === '› EXPAND_REPORT' ? '▼ COLLAPSE_REPORT' : '› EXPAND_REPORT';
-        });
-        
         document.getElementById('analyserBtn').addEventListener('click', analyser);
         document.getElementById('sujet').addEventListener('keypress', (e) => { if (e.key === 'Enter') analyser(); });
-        setTimeout(() => analyser(), 200);
+        
+        // Lancement automatique au chargement
+        setTimeout(() => analyser(), 500);
     </script>
 </body>
 </html>
