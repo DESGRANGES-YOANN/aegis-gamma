@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>AEGIS-Γ | Intelligence stratégique</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <title>AEGIS-Γ | Plateforme d'analyse narrative</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,19 +13,23 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #0b0f1c;
-            color: #e8edf5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #06090e;
+            color: #e5e9f0;
             line-height: 1.5;
         }
 
-        /* Canvas pour effet de particules */
-        #particles-canvas {
+        /* Grille technique en fond */
+        .grid-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background-image: 
+                linear-gradient(rgba(20, 40, 60, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(20, 40, 60, 0.15) 1px, transparent 1px);
+            background-size: 24px 24px;
             pointer-events: none;
             z-index: 0;
         }
@@ -38,15 +42,15 @@
             z-index: 1;
         }
 
-        /* Header */
+        /* Header style intel */
         .header {
-            padding: 2rem 0 1.5rem;
+            padding: 1.5rem 0 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
-            border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+            border-bottom: 1px solid #1e2a3a;
         }
 
         .logo-area {
@@ -56,124 +60,118 @@
         }
 
         .logo-icon {
-            width: 44px;
-            height: 44px;
-            background: linear-gradient(135deg, #38bdf8, #818cf8);
-            border-radius: 12px;
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid #4cc9f0;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 8px 20px rgba(56, 189, 248, 0.3);
+            font-size: 18px;
+            font-weight: 600;
+            color: #4cc9f0;
+            background: rgba(76, 201, 240, 0.05);
         }
 
         .logo-text {
-            font-size: 1.6rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            background: linear-gradient(135deg, #ffffff, #94a3b8);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: #e5e9f0;
         }
 
         .logo-gamma {
-            font-size: 1.3rem;
+            font-size: 1rem;
             font-weight: 500;
-            color: #38bdf8;
+            color: #7b8ba0;
+        }
+
+        .version-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            background: #11161d;
+            border: 1px solid #1e2a3a;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            color: #7b8ba0;
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
             align-items: center;
         }
 
         .nav-links a {
-            color: #94a3b8;
+            color: #7b8ba0;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 500;
             transition: color 0.2s;
         }
 
         .nav-links a:hover {
-            color: #38bdf8;
+            color: #4cc9f0;
         }
 
-        .btn-outline {
-            background: transparent;
-            border: 1px solid #38bdf8;
-            padding: 0.5rem 1.2rem;
-            border-radius: 40px;
-            color: #38bdf8;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-outline:hover {
-            background: rgba(56, 189, 248, 0.1);
-            transform: translateY(-1px);
-        }
-
-        /* Hero */
+        /* Hero style technique */
         .hero {
-            text-align: center;
-            padding: 3rem 0 2rem;
+            padding: 2rem 0 1.5rem;
+            border-bottom: 1px solid #1e2a3a;
         }
 
         .hero-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: #4cc9f0;
+            background: rgba(76, 201, 240, 0.08);
+            border: 1px solid rgba(76, 201, 240, 0.2);
             display: inline-block;
-            background: rgba(56, 189, 248, 0.12);
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            border-radius: 100px;
-            padding: 0.3rem 1rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: #38bdf8;
-            margin-bottom: 1.5rem;
-        }
-
-        .hero h1 {
-            font-size: 3.2rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            background: linear-gradient(135deg, #ffffff, #cbd5e1);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            padding: 0.2rem 0.8rem;
+            border-radius: 4px;
             margin-bottom: 1rem;
         }
 
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: #e5e9f0;
+            margin-bottom: 0.75rem;
+        }
+
         .hero p {
-            font-size: 1.1rem;
-            color: #94a3b8;
-            max-width: 600px;
-            margin: 0 auto;
+            font-size: 0.9rem;
+            color: #7b8ba0;
+            max-width: 580px;
         }
 
-        /* Main Card */
+        .disclaimer {
+            background: #0d141c;
+            border-left: 3px solid #4cc9f0;
+            padding: 0.75rem 1rem;
+            font-size: 0.7rem;
+            color: #7b8ba0;
+            margin: 1rem 0;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Main card style carbone */
         .main-card {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(16px);
-            border-radius: 32px;
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            padding: 2rem;
-            margin: 2rem 0;
-        }
-
-        /* Input Section */
-        .input-section {
-            margin-bottom: 2rem;
+            background: #0d1117;
+            border: 1px solid #1e2a3a;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
         }
 
         .input-label {
-            font-size: 0.85rem;
-            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #38bdf8;
+            letter-spacing: 0.03em;
+            color: #4cc9f0;
             margin-bottom: 0.75rem;
         }
 
@@ -185,118 +183,113 @@
 
         .input-wrapper input {
             flex: 1;
-            padding: 1rem 1.25rem;
-            border-radius: 20px;
-            border: 1px solid #334155;
-            background: #0f172a;
-            color: #f1f5f9;
-            font-size: 1rem;
-            font-family: 'Inter', monospace;
+            padding: 0.9rem 1.25rem;
+            border-radius: 8px;
+            border: 1px solid #1e2a3a;
+            background: #06090e;
+            color: #e5e9f0;
+            font-size: 0.9rem;
+            font-family: 'JetBrains Mono', monospace;
             transition: all 0.2s;
         }
 
         .input-wrapper input:focus {
             outline: none;
-            border-color: #38bdf8;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+            border-color: #4cc9f0;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #38bdf8, #818cf8);
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 1rem;
-            color: white;
+            background: transparent;
+            border: 1px solid #4cc9f0;
+            padding: 0.9rem 2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: #4cc9f0;
             cursor: pointer;
             transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(56, 189, 248, 0.35);
+            background: rgba(76, 201, 240, 0.08);
         }
 
         .btn-primary:disabled {
-            opacity: 0.6;
-            transform: none;
+            opacity: 0.5;
             cursor: not-allowed;
         }
 
-        /* Stats Grid */
-        .stats-grid {
+        /* Metrics grid */
+        .metrics-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .stat-card {
-            background: rgba(30, 41, 59, 0.5);
-            border-radius: 24px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.2s;
-            border: 1px solid rgba(56, 189, 248, 0.1);
+        .metric-card {
+            background: #06090e;
+            border: 1px solid #1e2a3a;
+            border-radius: 10px;
+            padding: 1rem;
         }
 
-        .stat-card:hover {
-            border-color: rgba(56, 189, 248, 0.3);
-            transform: translateY(-2px);
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.2;
         }
 
-        .stat-value {
-            font-size: 2.8rem;
-            font-weight: 800;
-            line-height: 1;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            color: #94a3b8;
-            margin-top: 0.5rem;
+        .metric-label {
+            font-size: 0.65rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            color: #7b8ba0;
+            margin-top: 0.5rem;
         }
 
-        .stat-critical { color: #ef4444; }
-        .stat-high { color: #f97316; }
-        .stat-medium { color: #eab308; }
-        .stat-low { color: #10b981; }
+        .metric-critical { color: #ef4444; }
+        .metric-high { color: #f97316; }
+        .metric-medium { color: #eab308; }
+        .metric-low { color: #10b981; }
 
-        /* Plan Section */
+        /* Plan card */
         .plan-card {
-            background: #0f172a;
-            border-radius: 24px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
+            background: #06090e;
+            border: 1px solid #1e2a3a;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
         }
 
         .plan-header {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #1e293b;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #1e2a3a;
         }
 
         .plan-icon {
-            font-size: 1.5rem;
+            font-size: 1rem;
         }
 
         .plan-title {
-            font-size: 1.1rem;
+            font-size: 0.75rem;
             font-weight: 600;
-            color: #38bdf8;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: #4cc9f0;
         }
 
         .plan-list {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.5rem;
         }
 
         .plan-item {
@@ -304,83 +297,102 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
-            padding: 0.75rem;
-            background: #1e293b;
-            border-radius: 16px;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #0d141c;
         }
 
         .plan-action {
-            font-weight: 500;
+            font-size: 0.8rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
         .plan-meta {
+            font-size: 0.65rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: #7b8ba0;
+        }
+
+        .tag {
+            background: #11161d;
+            border: 1px solid #1e2a3a;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.6rem;
+        }
+
+        .tag-critical { border-color: #ef4444; color: #ef4444; }
+        .tag-high { border-color: #f97316; color: #f97316; }
+        .tag-medium { border-color: #eab308; color: #eab308; }
+
+        /* Explicability */
+        .explication-box {
+            background: #0d141c;
+            border-left: 3px solid #4cc9f0;
+            padding: 0.75rem 1rem;
+            margin: 1rem 0;
+        }
+
+        .explication-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #4cc9f0;
+            margin-bottom: 0.5rem;
+        }
+
+        .explication-text {
             font-size: 0.75rem;
-            color: #94a3b8;
-            display: flex;
-            gap: 0.75rem;
+            color: #7b8ba0;
         }
-
-        .pill {
-            background: #334155;
-            padding: 0.2rem 0.6rem;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 500;
-        }
-
-        .pill-urgent { background: #ef4444; color: white; }
-        .pill-high { background: #f97316; color: white; }
-        .pill-medium { background: #eab308; color: black; }
 
         /* Features */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin: 2rem 0;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
         }
 
         .feature {
+            background: #0d1117;
+            border: 1px solid #1e2a3a;
+            border-radius: 8px;
+            padding: 0.75rem;
             text-align: center;
-            padding: 1rem;
-            background: rgba(30, 41, 59, 0.3);
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: #94a3b8;
+            font-size: 0.7rem;
+            color: #7b8ba0;
         }
 
         .feature span {
             display: block;
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
         }
 
         /* Footer */
         .footer {
+            padding: 1.5rem 0;
+            border-top: 1px solid #1e2a3a;
+            margin-top: 1.5rem;
             text-align: center;
-            padding: 2rem 0;
-            border-top: 1px solid #1e293b;
-            margin-top: 2rem;
-            color: #64748b;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
+            color: #5a6a7a;
         }
 
         .footer a {
-            color: #38bdf8;
+            color: #4cc9f0;
             text-decoration: none;
         }
 
-        /* Loader */
         .loader {
             display: inline-block;
-            width: 18px;
-            height: 18px;
-            border: 2px solid white;
+            width: 14px;
+            height: 14px;
+            border: 1px solid #4cc9f0;
             border-radius: 50%;
             border-top-color: transparent;
             animation: spin 0.6s linear infinite;
@@ -392,7 +404,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Hide/Show */
         .result-section {
             display: none;
         }
@@ -403,127 +414,83 @@
 
         @media (max-width: 768px) {
             .container { padding: 0 1rem; }
-            .hero h1 { font-size: 2rem; }
-            .stats-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 1.6rem; }
+            .metrics-grid { grid-template-columns: 1fr; }
             .features-grid { grid-template-columns: repeat(2, 1fr); }
             .header { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
 <body>
-    <canvas id="particles-canvas"></canvas>
+    <div class="grid-bg"></div>
 
     <div class="container">
-        <!-- Header -->
         <div class="header">
-            <div class="logo-area">
-                <div class="logo-icon">Γ</div>
-                <div>
-                    <span class="logo-text">AEGIS</span>
-                    <span class="logo-gamma">-Γ</span>
+            <div>
+                <div class="logo-area">
+                    <div class="logo-icon">Γ</div>
+                    <div>
+                        <span class="logo-text">AEGIS</span>
+                        <span class="logo-gamma">-Γ</span>
+                    </div>
+                    <div class="version-badge">v5.1</div>
                 </div>
             </div>
             <div class="nav-links">
-                <a href="#">Démo</a>
+                <a href="#">Analyse</a>
                 <a href="https://github.com/DESGRANGES-YOANN/aegis-gamma" target="_blank">GitHub</a>
-                <button class="btn-outline" onclick="window.location.href='mailto:desgranges06@gmail.com'">Contact</button>
+                <button class="btn-primary" style="padding: 0.4rem 1rem; font-size: 0.75rem;" onclick="window.location.href='mailto:desgranges06@gmail.com'">Contact</button>
             </div>
         </div>
 
-        <!-- Hero -->
         <div class="hero">
-            <div class="hero-badge">⚡ IA souveraine | 34 modules</div>
-            <h1>Veille stratégique<br>et détection de désinformation</h1>
-            <p>Analyse en temps réel, détection de coordination, plan d'action stratégique</p>
+            <div class="hero-badge">ANALYSE NARRATIVE • SIGNAL • COORDINATION</div>
+            <h1>Plateforme de veille stratégique</h1>
+            <p>Détection de polarisation, amplification et signaux faibles</p>
         </div>
 
-        <!-- Main Card -->
+        <div class="disclaimer">
+            ⚠️ Démonstration prototype — résultats simulés pour interface | Seuil de coordination : >7/10
+        </div>
+
         <div class="main-card">
-            <div class="input-section">
-                <div class="input-label">🔍 ANALYSEZ UN SUJET</div>
-                <div class="input-wrapper">
-                    <input type="text" id="sujet" placeholder="Ex: Amazon recyclage, ChatGPT, Président Macron, vaccins..." value="Président Macron">
-                    <button class="btn-primary" id="analyserBtn">Lancer l'analyse</button>
-                </div>
+            <div class="input-label">› SUJET_ANALYSE</div>
+            <div class="input-wrapper">
+                <input type="text" id="sujet" placeholder="ex: Amazon recyclage, ChatGPT, Président Macron, vaccins" value="Président Macron">
+                <button class="btn-primary" id="analyserBtn">EXECUTER</button>
             </div>
 
             <div id="resultat" class="result-section">
-                <div class="stats-grid" id="statsGrid"></div>
+                <div class="metrics-grid" id="metricsGrid"></div>
+                <div id="explicationBox" class="explication-box" style="display: none;">
+                    <div class="explication-title">[ANALYSE_DESCRIPTION]</div>
+                    <div class="explication-text" id="explicationText"></div>
+                </div>
                 <div id="planContainer"></div>
             </div>
         </div>
 
-        <!-- Features -->
         <div class="features-grid">
             <div class="feature"><span>🔬</span>34 modules d'analyse</div>
-            <div class="feature"><span>🎯</span>Détection coordination</div>
-            <div class="feature"><span>📊</span>Niveau d'alerte 0-10</div>
-            <div class="feature"><span>📋</span>Plan d'action stratégique</div>
+            <div class="feature"><span>🎯</span>Détection de coordination</div>
+            <div class="feature"><span>📊</span>Intensité narrative (0-10)</div>
+            <div class="feature"><span>📋</span>Interprétabilité</div>
         </div>
 
-        <!-- Footer -->
         <div class="footer">
-            <p>🔗 <a href="https://github.com/DESGRANGES-YOANN/aegis-gamma" target="_blank">GitHub</a> — 
-            📩 <a href="mailto:desgranges06@gmail.com">desgranges06@gmail.com</a></p>
-            <p style="margin-top: 0.5rem;">AEGIS-Γ — Intelligence stratégique / v5.1</p>
+            <p>🔗 <a href="https://github.com/DESGRANGES-YOANN/aegis-gamma" target="_blank">GitHub</a> — 📩 <a href="mailto:desgranges06@gmail.com">desgranges06@gmail.com</a></p>
+            <p style="margin-top: 0.25rem;">AEGIS-Γ — OSINT narratif | 34 modules | Démonstration académique</p>
         </div>
     </div>
 
     <script>
-        // Particules
-        const canvas = document.getElementById('particles-canvas');
-        function initParticles() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-            const particleCount = 80;
-
-            for (let i = 0; i < particleCount; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    radius: Math.random() * 2 + 0.5,
-                    alpha: Math.random() * 0.3,
-                    speedX: (Math.random() - 0.5) * 0.3,
-                    speedY: (Math.random() - 0.5) * 0.2
-                });
-            }
-
-            function animateParticles() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (let p of particles) {
-                    p.x += p.speedX;
-                    p.y += p.speedY;
-                    if (p.x < 0) p.x = canvas.width;
-                    if (p.x > canvas.width) p.x = 0;
-                    if (p.y < 0) p.y = canvas.height;
-                    if (p.y > canvas.height) p.y = 0;
-                    
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(56, 189, 248, ${p.alpha})`;
-                    ctx.fill();
-                }
-                requestAnimationFrame(animateParticles);
-            }
-            animateParticles();
-
-            window.addEventListener('resize', () => {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            });
-        }
-        initParticles();
-
-        // Résultats prédéfinis
-        const results = {
-            "amazon recyclage": { niveau: 5.2, confiance: 5.6, niveauTexte: "Modéré", couleur: "stat-medium" },
-            "chatgpt": { niveau: 6.1, confiance: 6.0, niveauTexte: "Élevé", couleur: "stat-high" },
-            "président macron": { niveau: 6.9, confiance: 6.5, niveauTexte: "Élevé", couleur: "stat-high" },
-            "macron": { niveau: 6.9, confiance: 6.5, niveauTexte: "Élevé", couleur: "stat-high" },
-            "vaccins": { niveau: 8.8, confiance: 9.0, niveauTexte: "Critique", couleur: "stat-critical" },
-            "jeux olympiques 2024": { niveau: 4.8, confiance: 4.5, niveauTexte: "Faible", couleur: "stat-low" }
+        const resultsMap = {
+            "amazon recyclage": { niveau: 5.2, confiance: 5.6, intensite: "Modérée", couleur: "metric-medium", explication: "Répétition lexicale modérée + activité temporelle concentrée" },
+            "chatgpt": { niveau: 6.1, confiance: 6.0, intensite: "Significative", couleur: "metric-high", explication: "Forte activité + amplification détectée + polarisation croissante" },
+            "président macron": { niveau: 6.9, confiance: 6.5, intensite: "Significative", couleur: "metric-high", explication: "Coordination modérée + charge émotionnelle élevée" },
+            "macron": { niveau: 6.9, confiance: 6.5, intensite: "Significative", couleur: "metric-high", explication: "Coordination modérée + charge émotionnelle élevée" },
+            "vaccins": { niveau: 8.8, confiance: 9.0, intensite: "Très élevée", couleur: "metric-critical", explication: "Coordination multi-comptes + pic temporel + faible diversité de sources" },
+            "jeux olympiques 2024": { niveau: 4.8, confiance: 4.5, intensite: "Faible", couleur: "metric-low", explication: "Activité dispersée + sources diversifiées" }
         };
 
         function getPlanHTML(sujet, niveau) {
@@ -532,21 +499,12 @@
                     <div class="plan-card">
                         <div class="plan-header">
                             <div class="plan-icon">🔴</div>
-                            <div class="plan-title">ACTIONS IMMÉDIATES — CRISE DÉCLARÉE</div>
+                            <div class="plan-title">PROTOCOLE_CRITIQUE</div>
                         </div>
                         <div class="plan-list">
-                            <div class="plan-item">
-                                <div class="plan-action">🚨 Déclencher cellule de crise</div>
-                                <div class="plan-meta"><span class="pill pill-urgent">IMMÉDIAT</span><span>Direction communication</span></div>
-                            </div>
-                            <div class="plan-item">
-                                <div class="plan-action">📊 Cartographier les amplificateurs</div>
-                                <div class="plan-meta"><span class="pill pill-high">2h</span><span>Équipe veille</span></div>
-                            </div>
-                            <div class="plan-item">
-                                <div class="plan-action">📢 Publier communiqué officiel</div>
-                                <div class="plan-meta"><span class="pill pill-high">24h</span><span>Direction com</span></div>
-                            </div>
+                            <div class="plan-item"><span class="plan-action">📊 Renforcer l'analyse humaine</span><span class="plan-meta"><span class="tag tag-critical">IMMÉDIAT</span></span></div>
+                            <div class="plan-item"><span class="plan-action">📄 Produire un rapport de situation</span><span class="plan-meta"><span class="tag tag-high">24h</span></span></div>
+                            <div class="plan-item"><span class="plan-action">🔍 Vérifier les sources dominantes</span><span class="plan-meta"><span class="tag tag-medium">48h</span></span></div>
                         </div>
                     </div>
                 `;
@@ -555,21 +513,11 @@
                     <div class="plan-card">
                         <div class="plan-header">
                             <div class="plan-icon">🟠</div>
-                            <div class="plan-title">SURVEILLANCE ACTIVE — TENDANCE ÉMERGENTE</div>
+                            <div class="plan-title">SURVEILLANCE_ACTIVE</div>
                         </div>
                         <div class="plan-list">
-                            <div class="plan-item">
-                                <div class="plan-action">📈 Surveillance renforcée</div>
-                                <div class="plan-meta"><span class="pill pill-high">7 jours</span><span>Équipe veille</span></div>
-                            </div>
-                            <div class="plan-item">
-                                <div class="plan-action">📢 Préparer éléments de langage</div>
-                                <div class="plan-meta"><span class="pill pill-medium">24h</span><span>Direction com</span></div>
-                            </div>
-                            <div class="plan-item">
-                                <div class="plan-action">👀 Observer les comptes influenceurs</div>
-                                <div class="plan-meta"><span class="pill">Continu</span><span>Community manager</span></div>
-                            </div>
+                            <div class="plan-item"><span class="plan-action">📈 Suivre l'évolution des signaux</span><span class="plan-meta"><span class="tag tag-high">7j</span></span></div>
+                            <div class="plan-item"><span class="plan-action">📊 Documenter les tendances émergentes</span><span class="plan-meta"><span class="tag">Continu</span></span></div>
                         </div>
                     </div>
                 `;
@@ -578,17 +526,10 @@
                     <div class="plan-card">
                         <div class="plan-header">
                             <div class="plan-icon">🟢</div>
-                            <div class="plan-title">SURVEILLANCE NORMALE — SIGNAL FAIBLE</div>
+                            <div class="plan-title">VEILLE_NORMALE</div>
                         </div>
                         <div class="plan-list">
-                            <div class="plan-item">
-                                <div class="plan-action">📝 Veille informationnelle régulière</div>
-                                <div class="plan-meta"><span class="pill">Hebdomadaire</span><span>Équipe veille</span></div>
-                            </div>
-                            <div class="plan-item">
-                                <div class="plan-action">📄 Documenter les tendances</div>
-                                <div class="plan-meta"><span class="pill">Continu</span><span>Équipe analyse</span></div>
-                            </div>
+                            <div class="plan-item"><span class="plan-action">📝 Surveillance informationnelle régulière</span><span class="plan-meta"><span class="tag">Hebdo</span></span></div>
                         </div>
                     </div>
                 `;
@@ -600,66 +541,41 @@
             const sujet = input.value.trim().toLowerCase();
             const btn = document.getElementById('analyserBtn');
             
-            if (!sujet) {
-                alert("Veuillez entrer un sujet");
-                return;
-            }
+            if (!sujet) return;
             
-            btn.innerHTML = '<span class="loader"></span> Analyse en cours...';
+            btn.innerHTML = '<span class="loader"></span> ANALYSE_EN_COURS';
             btn.disabled = true;
             
-            // Simulation délai
-            await new Promise(r => setTimeout(r, 800));
+            await new Promise(r => setTimeout(r, 600));
             
-            let result = results[sujet];
+            let result = resultsMap[sujet];
             if (!result) {
-                const alea = (Math.random() * 7 + 2).toFixed(1);
+                const alea = (Math.random() * 6 + 2).toFixed(1);
                 const niveau = parseFloat(alea);
-                let niveauTexte = "Modéré";
-                let couleur = "stat-medium";
-                if (niveau >= 7) { niveauTexte = "Critique"; couleur = "stat-critical"; }
-                else if (niveau >= 5) { niveauTexte = "Élevé"; couleur = "stat-high"; }
-                else { niveauTexte = "Faible"; couleur = "stat-low"; }
-                
-                result = {
-                    niveau: niveau,
-                    confiance: (niveau * 0.7 + Math.random() * 1.5).toFixed(1),
-                    niveauTexte: niveauTexte,
-                    couleur: couleur
-                };
+                let intensite = "Modérée", couleur = "metric-medium", exp = "Analyse baseline — seuils non atteints";
+                if (niveau >= 7) { intensite = "Très élevée"; couleur = "metric-critical"; exp = "Signaux forts détectés + coordination potentielle"; }
+                else if (niveau >= 5) { intensite = "Significative"; couleur = "metric-high"; exp = "Activité notable + polarisation émergente"; }
+                else { intensite = "Faible"; couleur = "metric-low"; exp = "Activité dispersée + sources diversifiées"; }
+                result = { niveau, confiance: (niveau * 0.7 + Math.random() * 1.5).toFixed(1), intensite, couleur, explication: exp };
             }
             
-            const statsGrid = document.getElementById('statsGrid');
-            statsGrid.innerHTML = `
-                <div class="stat-card">
-                    <div class="stat-value ${result.couleur}">${result.niveau}/10</div>
-                    <div class="stat-label">🚨 Niveau d'alerte</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value ${result.couleur}">${result.confiance}/10</div>
-                    <div class="stat-label">🎯 Score de confiance</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value ${result.couleur}">${result.niveauTexte}</div>
-                    <div class="stat-label">📊 Niveau de menace</div>
-                </div>
+            document.getElementById('metricsGrid').innerHTML = `
+                <div class="metric-card"><div class="metric-value ${result.couleur}">${result.niveau}/10</div><div class="metric-label">INTENSITÉ NARRATIVE</div></div>
+                <div class="metric-card"><div class="metric-value ${result.couleur}">${result.confiance}/10</div><div class="metric-label">CONFIANCE_ANALYSE</div></div>
+                <div class="metric-card"><div class="metric-value ${result.couleur}">${result.intensite}</div><div class="metric-label">NIVEAU_POLARISATION</div></div>
             `;
             
-            const planContainer = document.getElementById('planContainer');
-            planContainer.innerHTML = getPlanHTML(sujet, result.niveau);
-            
+            document.getElementById('explicationText').innerText = result.explication;
+            document.getElementById('explicationBox').style.display = 'block';
+            document.getElementById('planContainer').innerHTML = getPlanHTML(sujet, result.niveau);
             document.getElementById('resultat').classList.add('show');
             
-            btn.innerHTML = 'Lancer l\'analyse';
+            btn.innerHTML = 'EXECUTER';
             btn.disabled = false;
         }
         
         document.getElementById('analyserBtn').addEventListener('click', analyser);
-        document.getElementById('sujet').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') analyser();
-        });
-        
-        // Auto-analyse au chargement
+        document.getElementById('sujet').addEventListener('keypress', (e) => { if (e.key === 'Enter') analyser(); });
         setTimeout(() => analyser(), 200);
     </script>
 </body>
