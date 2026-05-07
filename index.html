@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>AEGIS-Γ | Plateforme d'analyse narrative</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <title>AEGIS-Γ | Analyse de signaux narratifs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -19,7 +19,6 @@
             line-height: 1.5;
         }
 
-        /* Grille technique en fond */
         .grid-bg {
             position: fixed;
             top: 0;
@@ -27,9 +26,9 @@
             width: 100%;
             height: 100%;
             background-image: 
-                linear-gradient(rgba(20, 40, 60, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(20, 40, 60, 0.15) 1px, transparent 1px);
-            background-size: 24px 24px;
+                linear-gradient(rgba(76, 201, 240, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(76, 201, 240, 0.05) 1px, transparent 1px);
+            background-size: 32px 32px;
             pointer-events: none;
             z-index: 0;
         }
@@ -42,7 +41,6 @@
             z-index: 1;
         }
 
-        /* Header style intel */
         .header {
             padding: 1.5rem 0 1rem;
             display: flex;
@@ -114,7 +112,6 @@
             color: #4cc9f0;
         }
 
-        /* Hero style technique */
         .hero {
             padding: 2rem 0 1.5rem;
             border-bottom: 1px solid #1e2a3a;
@@ -133,7 +130,7 @@
         }
 
         .hero h1 {
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: 600;
             letter-spacing: -0.01em;
             color: #e5e9f0;
@@ -156,7 +153,6 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Main card style carbone */
         .main-card {
             background: #0d1117;
             border: 1px solid #1e2a3a;
@@ -220,7 +216,6 @@
             cursor: not-allowed;
         }
 
-        /* Metrics grid */
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -255,7 +250,6 @@
         .metric-medium { color: #eab308; }
         .metric-low { color: #10b981; }
 
-        /* Plan card */
         .plan-card {
             background: #06090e;
             border: 1px solid #1e2a3a;
@@ -327,7 +321,6 @@
         .tag-high { border-color: #f97316; color: #f97316; }
         .tag-medium { border-color: #eab308; color: #eab308; }
 
-        /* Explicability */
         .explication-box {
             background: #0d141c;
             border-left: 3px solid #4cc9f0;
@@ -344,12 +337,22 @@
             margin-bottom: 0.5rem;
         }
 
-        .explication-text {
+        .explication-list {
+            list-style: none;
             font-size: 0.75rem;
             color: #7b8ba0;
         }
 
-        /* Features */
+        .explication-list li {
+            margin: 0.25rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .positive { color: #10b981; }
+        .negative { color: #ef4444; }
+
         .features-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -373,7 +376,6 @@
             margin-bottom: 0.3rem;
         }
 
-        /* Footer */
         .footer {
             padding: 1.5rem 0;
             border-top: 1px solid #1e2a3a;
@@ -444,13 +446,13 @@
         </div>
 
         <div class="hero">
-            <div class="hero-badge">ANALYSE NARRATIVE • SIGNAL • COORDINATION</div>
-            <h1>Plateforme de veille stratégique</h1>
+            <div class="hero-badge">ANALYSE DE SIGNAUX NARRATIFS • COORDINATION • POLARISATION</div>
+            <h1>Plateforme de veille informationnelle</h1>
             <p>Détection de polarisation, amplification et signaux faibles</p>
         </div>
 
         <div class="disclaimer">
-            ⚠️ Démonstration prototype — résultats simulés pour interface | Seuil de coordination : >7/10
+            ⚠️ Démonstration prototype — résultats simulés pour interface | Seuil de coordination >7/10
         </div>
 
         <div class="main-card">
@@ -463,8 +465,8 @@
             <div id="resultat" class="result-section">
                 <div class="metrics-grid" id="metricsGrid"></div>
                 <div id="explicationBox" class="explication-box" style="display: none;">
-                    <div class="explication-title">[ANALYSE_DESCRIPTION]</div>
-                    <div class="explication-text" id="explicationText"></div>
+                    <div class="explication-title">[FACTEURS_PRINCIPAUX]</div>
+                    <ul class="explication-list" id="explicationList"></ul>
                 </div>
                 <div id="planContainer"></div>
             </div>
@@ -473,24 +475,24 @@
         <div class="features-grid">
             <div class="feature"><span>🔬</span>34 modules d'analyse</div>
             <div class="feature"><span>🎯</span>Détection de coordination</div>
-            <div class="feature"><span>📊</span>Intensité narrative (0-10)</div>
+            <div class="feature"><span>📊</span>Intensité de signal (0-10)</div>
             <div class="feature"><span>📋</span>Interprétabilité</div>
         </div>
 
         <div class="footer">
             <p>🔗 <a href="https://github.com/DESGRANGES-YOANN/aegis-gamma" target="_blank">GitHub</a> — 📩 <a href="mailto:desgranges06@gmail.com">desgranges06@gmail.com</a></p>
-            <p style="margin-top: 0.25rem;">AEGIS-Γ — OSINT narratif | 34 modules | Démonstration académique</p>
+            <p style="margin-top: 0.25rem;">AEGIS-Γ — Analyse de signaux narratifs | 34 modules | Démonstration académique</p>
         </div>
     </div>
 
     <script>
-        const resultsMap = {
-            "amazon recyclage": { niveau: 5.2, confiance: 5.6, intensite: "Modérée", couleur: "metric-medium", explication: "Répétition lexicale modérée + activité temporelle concentrée" },
-            "chatgpt": { niveau: 6.1, confiance: 6.0, intensite: "Significative", couleur: "metric-high", explication: "Forte activité + amplification détectée + polarisation croissante" },
-            "président macron": { niveau: 6.9, confiance: 6.5, intensite: "Significative", couleur: "metric-high", explication: "Coordination modérée + charge émotionnelle élevée" },
-            "macron": { niveau: 6.9, confiance: 6.5, intensite: "Significative", couleur: "metric-high", explication: "Coordination modérée + charge émotionnelle élevée" },
-            "vaccins": { niveau: 8.8, confiance: 9.0, intensite: "Très élevée", couleur: "metric-critical", explication: "Coordination multi-comptes + pic temporel + faible diversité de sources" },
-            "jeux olympiques 2024": { niveau: 4.8, confiance: 4.5, intensite: "Faible", couleur: "metric-low", explication: "Activité dispersée + sources diversifiées" }
+        const facteursMap = {
+            "amazon recyclage": { niveau: 5.2, confiance: 5.6, intensite: "Modérée", couleur: "metric-medium", facteurs: ["+ Activité temporelle concentrée", "+ Répétition lexicale modérée", "- Diversité des sources acceptable"] },
+            "chatgpt": { niveau: 6.1, confiance: 6.0, intensite: "Significative", couleur: "metric-high", facteurs: ["+ Forte activité éditoriale", "+ Amplification détectée", "+ Polarisation croissante", "- Pas de coordination forte"] },
+            "président macron": { niveau: 6.9, confiance: 6.5, intensite: "Significative", couleur: "metric-high", facteurs: ["+ Coordination modérée", "+ Charge émotionnelle élevée", "+ Répétition thématique", "- Source unique dominante"] },
+            "macron": { niveau: 6.9, confiance: 6.5, intensite: "Significative", couleur: "metric-high", facteurs: ["+ Coordination modérée", "+ Charge émotionnelle élevée", "+ Répétition thématique", "- Source unique dominante"] },
+            "vaccins": { niveau: 8.8, confiance: 9.0, intensite: "Très élevée", couleur: "metric-critical", facteurs: ["+ Coordination multi-comptes forte", "+ Pic temporel anormal", "+ Faible diversité de sources", "+ Charge émotionnelle maximale"] },
+            "jeux olympiques 2024": { niveau: 4.8, confiance: 4.5, intensite: "Faible", couleur: "metric-low", facteurs: ["+ Activité dispersée", "+ Sources diversifiées", "- Aucun pic temporel", "- Absence de coordination"] }
         };
 
         function getPlanHTML(sujet, niveau) {
@@ -499,7 +501,7 @@
                     <div class="plan-card">
                         <div class="plan-header">
                             <div class="plan-icon">🔴</div>
-                            <div class="plan-title">PROTOCOLE_CRITIQUE</div>
+                            <div class="plan-title">ANALYSE APPROFONDIE RECOMMANDÉE</div>
                         </div>
                         <div class="plan-list">
                             <div class="plan-item"><span class="plan-action">📊 Renforcer l'analyse humaine</span><span class="plan-meta"><span class="tag tag-critical">IMMÉDIAT</span></span></div>
@@ -513,7 +515,7 @@
                     <div class="plan-card">
                         <div class="plan-header">
                             <div class="plan-icon">🟠</div>
-                            <div class="plan-title">SURVEILLANCE_ACTIVE</div>
+                            <div class="plan-title">SURVEILLANCE RENFORCÉE</div>
                         </div>
                         <div class="plan-list">
                             <div class="plan-item"><span class="plan-action">📈 Suivre l'évolution des signaux</span><span class="plan-meta"><span class="tag tag-high">7j</span></span></div>
@@ -526,10 +528,10 @@
                     <div class="plan-card">
                         <div class="plan-header">
                             <div class="plan-icon">🟢</div>
-                            <div class="plan-title">VEILLE_NORMALE</div>
+                            <div class="plan-title">VEILLE INFORMATIONNELLE</div>
                         </div>
                         <div class="plan-list">
-                            <div class="plan-item"><span class="plan-action">📝 Surveillance informationnelle régulière</span><span class="plan-meta"><span class="tag">Hebdo</span></span></div>
+                            <div class="plan-item"><span class="plan-action">📝 Surveillance régulière</span><span class="plan-meta"><span class="tag">Hebdo</span></span></div>
                         </div>
                     </div>
                 `;
@@ -548,24 +550,29 @@
             
             await new Promise(r => setTimeout(r, 600));
             
-            let result = resultsMap[sujet];
+            let result = facteursMap[sujet];
             if (!result) {
                 const alea = (Math.random() * 6 + 2).toFixed(1);
                 const niveau = parseFloat(alea);
-                let intensite = "Modérée", couleur = "metric-medium", exp = "Analyse baseline — seuils non atteints";
-                if (niveau >= 7) { intensite = "Très élevée"; couleur = "metric-critical"; exp = "Signaux forts détectés + coordination potentielle"; }
-                else if (niveau >= 5) { intensite = "Significative"; couleur = "metric-high"; exp = "Activité notable + polarisation émergente"; }
-                else { intensite = "Faible"; couleur = "metric-low"; exp = "Activité dispersée + sources diversifiées"; }
-                result = { niveau, confiance: (niveau * 0.7 + Math.random() * 1.5).toFixed(1), intensite, couleur, explication: exp };
+                let intensite = "Modérée", couleur = "metric-medium", facteurs = ["+ Analyse baseline", "- Seuils non atteints", "+ Sources dispersées"];
+                if (niveau >= 7) { intensite = "Très élevée"; couleur = "metric-critical"; facteurs = ["+ Signaux forts détectés", "+ Coordination potentielle", "- À confirmer"]; }
+                else if (niveau >= 5) { intensite = "Significative"; couleur = "metric-high"; facteurs = ["+ Activité notable", "+ Polarisation émergente", "- Pas de coordination forte"]; }
+                else { intensite = "Faible"; couleur = "metric-low"; facteurs = ["+ Activité dispersée", "+ Sources diversifiées", "- Aucune anomalie détectée"]; }
+                result = { niveau, confiance: (niveau * 0.7 + Math.random() * 1.5).toFixed(1), intensite, couleur, facteurs };
             }
             
             document.getElementById('metricsGrid').innerHTML = `
-                <div class="metric-card"><div class="metric-value ${result.couleur}">${result.niveau}/10</div><div class="metric-label">INTENSITÉ NARRATIVE</div></div>
+                <div class="metric-card"><div class="metric-value ${result.couleur}">${result.niveau}/10</div><div class="metric-label">INTENSITÉ DE SIGNAL</div></div>
                 <div class="metric-card"><div class="metric-value ${result.couleur}">${result.confiance}/10</div><div class="metric-label">CONFIANCE_ANALYSE</div></div>
-                <div class="metric-card"><div class="metric-value ${result.couleur}">${result.intensite}</div><div class="metric-label">NIVEAU_POLARISATION</div></div>
+                <div class="metric-card"><div class="metric-value ${result.couleur}">${result.intensite}</div><div class="metric-label">NIVEAU DE COORDINATION</div></div>
             `;
             
-            document.getElementById('explicationText').innerText = result.explication;
+            const explicationList = document.getElementById('explicationList');
+            explicationList.innerHTML = result.facteurs.map(f => {
+                const isPositive = f.startsWith('+');
+                return `<li><span class="${isPositive ? 'positive' : 'negative'}">${isPositive ? '▲' : '▼'}</span> ${f.substring(2)}</li>`;
+            }).join('');
+            
             document.getElementById('explicationBox').style.display = 'block';
             document.getElementById('planContainer').innerHTML = getPlanHTML(sujet, result.niveau);
             document.getElementById('resultat').classList.add('show');
