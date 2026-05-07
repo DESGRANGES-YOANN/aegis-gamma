@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEGIS-Γ - Veille stratégique</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #0a0a0a; color: white; text-align: center; }
+        .container { max-width: 800px; margin: 50px auto; padding: 20px; }
+        h1 { font-size: 48px; color: #00ff88; }
+        .box { background: #1a1a1a; padding: 30px; border-radius: 20px; margin: 20px 0; }
+        input, button { padding: 15px; margin: 10px; border-radius: 10px; border: none; font-size: 16px; }
+        input { width: 60%; background: #2a2a2a; color: white; }
+        button { background: #00ff88; color: black; font-weight: bold; cursor: pointer; }
+        button:hover { background: #00cc66; }
+        .result { background: #0a2a1a; padding: 20px; border-radius: 10px; margin-top: 20px; text-align: left; }
+        .footer { margin-top: 50px; font-size: 12px; color: #666; }
+        a { color: #00ff88; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛡️ AEGIS-Γ</h1>
+        <p>Détection de campagnes de désinformation | Veille stratégique</p>
+        
+        <div class="box">
+            <h2>📊 Essai gratuit</h2>
+            <p>Entrez un sujet et découvrez ce qui se dit en ligne</p>
+            <input type="text" id="sujet" placeholder="Ex: Amazon recyclage, ChatGPT, élections...">
+            <button onclick="analyser()">🔍 Analyser</button>
+            <div id="resultat" class="result" style="display:none;"></div>
+        </div>
+        
+        <div class="box">
+            <h2>💡 Pourquoi AEGIS-Γ ?</h2>
+            <p>✅ Détecte les campagnes coordonnées<br>
+            ✅ Identifie les amplificateurs<br>
+            ✅ Calcule un niveau d'alerte (0-10)<br>
+            ✅ Propose des actions stratégiques</p>
+        </div>
+        
+        <div class="footer">
+            <p>📩 Contact : <a href="mailto:desgranges06@gmail.com">desgranges06@gmail.com</a></p>
+            <p>🔗 <a href="https://github.com/DESGRANGES-YOANN/aegis-gamma">GitHub</a> | Version démo gratuite</p>
+        </div>
+    </div>
+
+    <script>
+        async function analyser() {
+            const sujet = document.getElementById('sujet').value;
+            if (!sujet) {
+                alert("Veuillez entrer un sujet");
+                return;
+            }
+            
+            const btn = event.target;
+            btn.innerText = "⏳ Analyse...";
+            btn.disabled = true;
+            
+            document.getElementById('resultat').style.display = 'block';
+            document.getElementById('resultat').innerHTML = '🔄 Analyse en cours...';
+            
+            // Simulation d'analyse (en attendant l'API réelle)
+            setTimeout(() => {
+                const resultats = {
+                    "Amazon recyclage": "📊 Niveau: 5.2/10 | Surveillance active",
+                    "ChatGPT": "📊 Niveau: 6.1/10 | Surveillance recommandée",
+                    "vaccins": "📊 Niveau: 8.8/10 | Campagne coordonnée détectée"
+                };
+                
+                let niveau = resultats[sujet] || `📊 Niveau: ${(Math.random() * 5 + 3).toFixed(1)}/10 | Analyse de "${sujet}"`;
+                
+                document.getElementById('resultat').innerHTML = `
+                    <h3>📊 Résultat pour : ${sujet}</h3>
+                    <p>${niveau}</p>
+                    <p>💡 Version démo gratuite. Contactez-nous pour une analyse complète.</p>
+                    <button onclick="demanderDevis()">📩 Demander un devis</button>
+                `;
+                btn.innerText = "🔍 Analyser";
+                btn.disabled = false;
+            }, 2000);
+        }
+        
+        function demanderDevis() {
+            window.location.href = "mailto:desgranges06@gmail.com?subject=Devis%20AEGIS-Γ";
+        }
+    </script>
+</body>
+</html>
