@@ -680,6 +680,168 @@ class GenerateurRecommandations:
             )
         
         return recommendations
+# ============================================================
+# MODULE V5.1 - GÉNÉRATEUR DE SOLUTIONS (NOUVEAU)
+# ============================================================
+
+class GenerateurSolutions:
+    """Génère un plan d'action stratégique basé sur l'analyse AEGIS"""
+    
+    @staticmethod
+    def generer(sujet: str, niveau_alerte: float, roles: Dict, validation: Dict = None) -> Dict:
+        """
+        Propose des actions concrètes en fonction du niveau d'alerte
+        """
+        plan = {
+            "sujet": sujet,
+            "niveau_alerte": niveau_alerte,
+            "actions_immediates": [],
+            "actions_communication": [],
+            "actions_preventives": [],
+            "delais": {}
+        }
+        
+        # ============================================
+        # 1. ACTIONS IMMÉDIATES (alerte haute)
+        # ============================================
+        if niveau_alerte >= 7:
+            plan["actions_immediates"].append({
+                "action": f"🚨 Déclencher cellule de crise pour '{sujet}'",
+                "responsable": "Direction communication / DG",
+                "delai": "immédiat"
+            })
+            plan["actions_immediates"].append({
+                "action": "📊 Cartographier tous les comptes amplificateurs",
+                "responsable": "Équipe veille",
+                "delai": "2 heures"
+            })
+            plan["actions_immediates"].append({
+                "action": "🚫 Ne pas alimenter la polémique sur les réseaux",
+                "responsable": "Toute l'équipe",
+                "delai": "immédiat"
+            })
+            
+            if roles.get("super_amplificateurs", 0) > 0:
+                plan["actions_immediates"].append({
+                    "action": f"🔴 Identifier et documenter les {roles['super_amplificateurs']} super-amplificateurs",
+                    "responsable": "Équipe analyse",
+                    "delai": "4 heures"
+                })
+        
+        # ============================================
+        # 2. ACTIONS DE COMMUNICATION
+        # ============================================
+        if niveau_alerte >= 5:
+            plan["actions_communication"].append({
+                "action": "📢 Rédiger et publier un communiqué officiel",
+                "responsable": "Direction communication",
+                "delai": "24 heures"
+            })
+            plan["actions_communication"].append({
+                "action": "🎯 Contacter 3 médias de confiance pour relayer",
+                "responsable": "Attaché de presse",
+                "delai": "48 heures"
+            })
+            
+            if niveau_alerte >= 6:
+                plan["actions_communication"].append({
+                    "action": "🔍 Préparer une FAQ détaillée sur le sujet",
+                    "responsable": "Équipe juridique / technique",
+                    "delai": "72 heures"
+                })
+        
+        # ============================================
+        # 3. ACTIONS SUR LES ACTEURS
+        # ============================================
+        if roles.get("amplificateurs", 0) > 0:
+            plan["actions_communication"].append({
+                "action": f"👥 Contacter les {roles['amplificateurs']} comptes amplificateurs (message privé)",
+                "responsable": "Community manager",
+                "delai": "24 heures"
+            })
+        
+        if roles.get("super_amplificateurs", 0) > 0:
+            plan["actions_communication"].append({
+                "action": f"🔴 Signaler les {roles['super_amplificateurs']} super-amplificateurs à la plateforme",
+                "responsable": "Équipe juridique",
+                "delai": "48 heures"
+            })
+        
+        # ============================================
+        # 4. ACTIONS PRÉVENTIVES
+        # ============================================
+        if niveau_alerte >= 4:
+            plan["actions_preventives"].append({
+                "action": f"📈 Mettre en place une surveillance renforcée sur '{sujet}'",
+                "responsable": "Équipe veille",
+                "periode": "7 jours"
+            })
+            plan["actions_preventives"].append({
+                "action": "📝 Documenter les tendances et narratives émergentes",
+                "responsable": "Équipe analyse",
+                "periode": "continue"
+            })
+        
+        # ============================================
+        # 5. MESSAGES CLÉS À RETENIR
+        # ============================================
+        plan["messages_cles"] = []
+        if niveau_alerte >= 7:
+            plan["messages_cles"].append("La transparence est la meilleure réponse à la désinformation")
+            plan["messages_cles"].append("Ne pas répondre émotionnellement, répondre factuellement")
+        elif niveau_alerte >= 5:
+            plan["messages_cles"].append("La surveillance active permet d'anticiper les crises")
+        else:
+            plan["messages_cles"].append("Maintenir une veille régulière pour détecter les signaux faibles")
+        
+        # ============================================
+        # 6. RÉSUMÉ DES DÉLAIS
+        # ============================================
+        plan["delais"] = {
+            "immédiat": len([a for a in plan["actions_immediates"] if a.get("delai") == "immédiat"]),
+            "24h": len([a for a in plan["actions_communication"] if "24" in str(a.get("delai", ""))]),
+            "48h": len([a for a in plan["actions_communication"] if "48" in str(a.get("delai", ""))]),
+            "72h": len([a for a in plan["actions_communication"] if "72" in str(a.get("delai", ""))])
+        }
+        
+        return plan
+    
+    @staticmethod
+    def afficher(plan: Dict) -> None:
+        """Affiche le plan de manière lisible"""
+        print("\n" + "="*60)
+        print(f"📋 PLAN D'ACTION STRATÉGIQUE - {plan['sujet']}")
+        print("="*60)
+        print(f"🚨 Niveau d'alerte: {plan['niveau_alerte']}/10\n")
+        
+        if plan["actions_immediates"]:
+            print("🔴 ACTIONS IMMÉDIATES :")
+            for a in plan["actions_immediates"]:
+                print(f"   • {a['action']}")
+                print(f"     Responsable: {a['responsable']} | Délai: {a['delai']}")
+            print()
+        
+        if plan["actions_communication"]:
+            print("📢 ACTIONS DE COMMUNICATION :")
+            for a in plan["actions_communication"]:
+                print(f"   • {a['action']}")
+                print(f"     Responsable: {a['responsable']} | Délai: {a['delai']}")
+            print()
+        
+        if plan["actions_preventives"]:
+            print("🛡️ ACTIONS PRÉVENTIVES :")
+            for a in plan["actions_preventives"]:
+                print(f"   • {a['action']}")
+                print(f"     Responsable: {a['responsable']} | Période: {a['periode']}")
+            print()
+        
+        if plan["messages_cles"]:
+            print("💡 MESSAGES CLÉS :")
+            for m in plan["messages_cles"]:
+                print(f"   • {m}")
+            print()
+        
+        print("="*60)
 
 # ============================================================
 # MAIN
@@ -731,6 +893,12 @@ if __name__ == "__main__":
             print(f"\n💡 RECOMMANDATIONS:")
             for action in reco.get("actions_immediates", [])[:3]:
                 print(f"   {action}")
+
+            # NOUVEAU : Générer et afficher le plan d'action stratégique
+            plan = GenerateurSolutions.generer(sujet, resultat['zone_tension']['niveau_alerte'], roles)
+            GenerateurSolutions.afficher(plan)
+
+
     elif args.test:
         print("✅ Tests OK - Version 34 modules + V5.0")
         print(f"✅ NumPy: {np.__version__}")
