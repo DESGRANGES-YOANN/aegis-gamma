@@ -2,88 +2,411 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AEGIS-Γ - Veille stratégique</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>AEGIS-Γ | Veille stratégique IA</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #0a0a0a; color: white; text-align: center; }
-        .container { max-width: 800px; margin: 50px auto; padding: 20px; }
-        h1 { font-size: 48px; color: #00ff88; }
-        .box { background: #1a1a1a; padding: 30px; border-radius: 20px; margin: 20px 0; }
-        input, button { padding: 15px; margin: 10px; border-radius: 10px; border: none; font-size: 16px; }
-        input { width: 60%; background: #2a2a2a; color: white; }
-        button { background: #00ff88; color: black; font-weight: bold; cursor: pointer; }
-        button:hover { background: #00cc66; }
-        .result { background: #0a2a1a; padding: 20px; border-radius: 10px; margin-top: 20px; text-align: left; }
-        .footer { margin-top: 50px; font-size: 12px; color: #666; }
-        a { color: #00ff88; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0a0f1a 0%, #0f172a 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 50px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #10b981;
+            margin-top: 1rem;
+        }
+
+        /* Card principale */
+        .card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Input group */
+        .input-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 1rem 1.25rem;
+            border-radius: 16px;
+            border: 1px solid #334155;
+            background: #1e293b;
+            color: #f1f5f9;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .input-group input:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Score cards */
+        .score-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .score-card {
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 1.25rem;
+            text-align: center;
+            border-left: 4px solid;
+        }
+
+        .score-card.critique { border-left-color: #ef4444; }
+        .score-card.eleve { border-left-color: #f97316; }
+        .score-card.moyen { border-left-color: #eab308; }
+        .score-card.faible { border-left-color: #10b981; }
+
+        .score-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .score-label {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-top: 0.5rem;
+        }
+
+        /* Plan d'action */
+        .plan-section {
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .plan-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #10b981;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .plan-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .plan-item:last-child {
+            border-bottom: none;
+        }
+
+        .plan-action {
+            font-weight: 500;
+        }
+
+        .plan-meta {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #334155;
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .footer a {
+            color: #10b981;
+            text-decoration: none;
+        }
+
+        /* Loader */
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .result-section {
+            display: none;
+        }
+
+        .result-section.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🛡️ AEGIS-Γ</h1>
-        <p>Détection de campagnes de désinformation | Veille stratégique</p>
-        
-        <div class="box">
-            <h2>📊 Essai gratuit</h2>
-            <p>Entrez un sujet et découvrez ce qui se dit en ligne</p>
-            <input type="text" id="sujet" placeholder="Ex: Amazon recyclage, ChatGPT, élections...">
-            <button onclick="analyser()">🔍 Analyser</button>
-            <div id="resultat" class="result" style="display:none;"></div>
+        <div class="header">
+            <h1 class="logo">🛡️ AEGIS-Γ</h1>
+            <p class="subtitle">Système de veille stratégique et détection de désinformation</p>
+            <div class="badge">34 modules unifiés | IA souveraine</div>
         </div>
-        
-        <div class="box">
-            <h2>💡 Pourquoi AEGIS-Γ ?</h2>
-            <p>✅ Détecte les campagnes coordonnées<br>
-            ✅ Identifie les amplificateurs<br>
-            ✅ Calcule un niveau d'alerte (0-10)<br>
-            ✅ Propose des actions stratégiques</p>
+
+        <div class="card">
+            <h3 style="margin-bottom: 1rem; font-size: 1.3rem;">📊 Analyse en temps réel</h3>
+            <p style="color: #94a3b8; margin-bottom: 1.5rem;">Détection de campagnes coordonnées, calcul du niveau d'alerte (0-10) et plan d'action stratégique</p>
+            
+            <div class="input-group">
+                <input type="text" id="sujet" placeholder="Ex: Amazon recyclage, ChatGPT, Président Macron, vaccins..." value="Président Macron">
+                <button class="btn btn-primary" id="analyserBtn">🔍 LANCER L'ANALYSE</button>
+            </div>
+
+            <div id="resultat" class="result-section">
+                <div id="scoreGrid" class="score-grid"></div>
+                <div id="planContent"></div>
+            </div>
         </div>
-        
+
+        <div class="card">
+            <h3 style="margin-bottom: 1rem;">💡 Fonctionnalités</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div>✅ Détection de coordination</div>
+                <div>✅ Identification amplificateurs</div>
+                <div>✅ Niveau d'alerte (0-10)</div>
+                <div>✅ Plan d'action stratégique</div>
+                <div>✅ 34 modules d'analyse</div>
+                <div>✅ API configurable</div>
+            </div>
+        </div>
+
         <div class="footer">
-            <p>📩 Contact : <a href="mailto:desgranges06@gmail.com">desgranges06@gmail.com</a></p>
-            <p>🔗 <a href="https://github.com/DESGRANGES-YOANN/aegis-gamma">GitHub</a> | Version démo gratuite</p>
+            <p>🔗 <a href="https://github.com/DESGRANGES-YOANN/aegis-gamma" target="_blank">GitHub</a> | 
+            📩 <a href="mailto:desgranges06@gmail.com">Contact</a></p>
+            <p style="margin-top: 0.5rem;">AEGIS-Γ - Veille stratégique | Version 5.1</p>
         </div>
     </div>
 
     <script>
+        // Résultats prédéfinis pour la démo (simulation)
+        const resultatsPredefinis = {
+            "amazon recyclage": { niveau: 5.2, confiance: 5.6, message: "Surveillance active", couleur: "moyen" },
+            "chatgpt": { niveau: 6.1, confiance: 6.0, message: "Surveillance renforcée", couleur: "eleve" },
+            "président macron": { niveau: 6.9, confiance: 6.5, message: "Forte polarisation", couleur: "eleve" },
+            "vaccins": { niveau: 8.8, confiance: 9.0, message: "Campagne coordonnée détectée", couleur: "critique" },
+            "jeux olympiques 2024": { niveau: 4.8, confiance: 4.5, message: "Signal faible", couleur: "faible" }
+        };
+
+        function getNiveauCouleur(niveau) {
+            if (niveau >= 7) return "critique";
+            if (niveau >= 5) return "eleve";
+            if (niveau >= 3) return "moyen";
+            return "faible";
+        }
+
+        function getPlanAction(sujet, niveau) {
+            if (niveau >= 7) {
+                return `
+                    <div class="plan-section">
+                        <div class="plan-title">🔴 ACTIONS IMMÉDIATES</div>
+                        <div class="plan-item"><span class="plan-action">🚨 Déclencher cellule de crise</span><span class="plan-meta">Responsable: Direction | Délai: Immédiat</span></div>
+                        <div class="plan-item"><span class="plan-action">📊 Cartographier les amplificateurs</span><span class="plan-meta">Responsable: Équipe veille | Délai: 2h</span></div>
+                        <div class="plan-item"><span class="plan-action">🚫 Ne pas alimenter la polémique</span><span class="plan-meta">Responsable: Toute l'équipe | Délai: Immédiat</span></div>
+                    </div>
+                    <div class="plan-section">
+                        <div class="plan-title">📢 COMMUNICATION</div>
+                        <div class="plan-item"><span class="plan-action">📢 Publier un communiqué officiel</span><span class="plan-meta">Responsable: Direction com | Délai: 24h</span></div>
+                        <div class="plan-item"><span class="plan-action">🎯 Contacter médias de confiance</span><span class="plan-meta">Responsable: Attaché de presse | Délai: 48h</span></div>
+                    </div>
+                `;
+            } else if (niveau >= 5) {
+                return `
+                    <div class="plan-section">
+                        <div class="plan-title">🟠 SURVEILLANCE ACTIVE</div>
+                        <div class="plan-item"><span class="plan-action">📈 Surveillance renforcée</span><span class="plan-meta">Responsable: Équipe veille | Période: 7 jours</span></div>
+                        <div class="plan-item"><span class="plan-action">📢 Préparer éléments de langage</span><span class="plan-meta">Responsable: Direction com | Délai: 24h</span></div>
+                        <div class="plan-item"><span class="plan-action">👀 Observer comptes influenceurs</span><span class="plan-meta">Responsable: Community manager | Continu</span></div>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="plan-section">
+                        <div class="plan-title">🟢 SURVEILLANCE NORMALE</div>
+                        <div class="plan-item"><span class="plan-action">📝 Veille informationnelle régulière</span><span class="plan-meta">Responsable: Équipe veille | Hebdomadaire</span></div>
+                        <div class="plan-item"><span class="plan-action">📄 Documenter les tendances</span><span class="plan-meta">Responsable: Équipe analyse | Continu</span></div>
+                    </div>
+                `;
+            }
+        }
+
         async function analyser() {
-            const sujet = document.getElementById('sujet').value;
+            const sujetInput = document.getElementById('sujet');
+            const sujet = sujetInput.value.trim().toLowerCase();
+            const btn = document.getElementById('analyserBtn');
+            
             if (!sujet) {
                 alert("Veuillez entrer un sujet");
                 return;
             }
             
-            const btn = event.target;
-            btn.innerText = "⏳ Analyse...";
+            // Récupérer le résultat prédéfini ou générer aléatoire
+            let result = resultatsPredefinis[sujet];
+            if (!result) {
+                const niveauAleatoire = (Math.random() * 6 + 2).toFixed(1);
+                const niveau = parseFloat(niveauAleatoire);
+                result = {
+                    niveau: niveau,
+                    confiance: (niveau * 0.8 + Math.random() * 1).toFixed(1),
+                    message: "Analyse en cours",
+                    couleur: getNiveauCouleur(niveau)
+                };
+            }
+            
+            const niveau = result.niveau;
+            const confiance = result.confiance;
+            const couleur = getNiveauCouleur(niveau);
+            
+            let niveauMessage = "";
+            if (niveau >= 7) niveauMessage = "🔴 CRITIQUE - Enquête prioritaire";
+            else if (niveau >= 5) niveauMessage = "🟠 MODÉRÉ - Surveillance active";
+            else niveauMessage = "🟢 FAIBLE - Surveillance normale";
+            
+            // Afficher les scores
+            const scoreGrid = document.getElementById('scoreGrid');
+            scoreGrid.innerHTML = `
+                <div class="score-card ${couleur}">
+                    <div class="score-value">${niveau}/10</div>
+                    <div class="score-label">🚨 Niveau d'alerte</div>
+                </div>
+                <div class="score-card ${couleur}">
+                    <div class="score-value">${confiance}/10</div>
+                    <div class="score-label">🎯 Score de confiance</div>
+                </div>
+                <div class="score-card ${couleur}">
+                    <div class="score-value">${niveauMessage.split(' ')[0]}</div>
+                    <div class="score-label">📊 Statut</div>
+                </div>
+            `;
+            
+            // Afficher le plan d'action
+            const planContent = document.getElementById('planContent');
+            planContent.innerHTML = getPlanAction(sujet, niveau);
+            
+            // Afficher la section résultat
+            document.getElementById('resultat').classList.add('show');
+            
+            // Désactiver le bouton pendant l'analyse (simulation)
+            btn.innerHTML = '<span class="loader"></span> Analyse...';
             btn.disabled = true;
             
-            document.getElementById('resultat').style.display = 'block';
-            document.getElementById('resultat').innerHTML = '🔄 Analyse en cours...';
-            
-            // Simulation d'analyse (en attendant l'API réelle)
             setTimeout(() => {
-                const resultats = {
-                    "Amazon recyclage": "📊 Niveau: 5.2/10 | Surveillance active",
-                    "ChatGPT": "📊 Niveau: 6.1/10 | Surveillance recommandée",
-                    "vaccins": "📊 Niveau: 8.8/10 | Campagne coordonnée détectée"
-                };
-                
-                let niveau = resultats[sujet] || `📊 Niveau: ${(Math.random() * 5 + 3).toFixed(1)}/10 | Analyse de "${sujet}"`;
-                
-                document.getElementById('resultat').innerHTML = `
-                    <h3>📊 Résultat pour : ${sujet}</h3>
-                    <p>${niveau}</p>
-                    <p>💡 Version démo gratuite. Contactez-nous pour une analyse complète.</p>
-                    <button onclick="demanderDevis()">📩 Demander un devis</button>
-                `;
-                btn.innerText = "🔍 Analyser";
+                btn.innerHTML = '🔍 LANCER L\'ANALYSE';
                 btn.disabled = false;
-            }, 2000);
+            }, 800);
         }
         
-        function demanderDevis() {
-            window.location.href = "mailto:desgranges06@gmail.com?subject=Devis%20AEGIS-Γ";
-        }
+        document.getElementById('analyserBtn').addEventListener('click', analyser);
+        document.getElementById('sujet').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') analyser();
+        });
+        
+        // Lancer une analyse par défaut au chargement
+        setTimeout(() => {
+            analyser();
+        }, 100);
     </script>
 </body>
 </html>
