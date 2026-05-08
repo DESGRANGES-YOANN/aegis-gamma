@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AEGIS-Γ | Analyse réseau sociaux</title>
+    <title>AEGIS-Γ | Analyse multi-sources</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -83,7 +83,7 @@
             border-radius: 4px;
             margin-bottom: 0.75rem;
         }
-        .hero h1 { font-size: 1.6rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .hero h1 { font-size: 1.6rem; font-weight: 600; margin-bottom: 0.5rem; letter-spacing: -0.01em; }
         .hero p { font-size: 0.85rem; color: #7b8ba0; max-width: 520px; }
         .live-badge {
             display: inline-block;
@@ -178,8 +178,8 @@
         .metric-mid { color: #eab308; }
         .metric-low { color: #10b981; }
         
-        .chart-container { margin: 1rem 0; background: #06090e; border: 1px solid #1e2a3a; border-radius: 6px; padding: 1rem; }
-        canvas { max-height: 200px; }
+        .chart-container { margin: 1rem 0; background: #0a0f16; border: 1px solid #1e2a3a; border-radius: 8px; padding: 1rem; }
+        canvas { max-height: 180px; width: 100%; }
         
         .row-2cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 0.75rem 0; }
         .info-card {
@@ -194,6 +194,7 @@
             text-transform: uppercase;
             color: #4cc9f0;
             margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
         }
         .badge-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
         .badge {
@@ -221,21 +222,38 @@
             border-bottom: 1px solid #0d141c;
             font-size: 0.7rem;
         }
-        .messages-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-top: 0.75rem; }
+        .messages-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-top: 0.75rem; margin-bottom: 0.75rem; }
         .message-card {
             background: #06090e;
             border: 1px solid #1e2a3a;
             border-radius: 6px;
             padding: 0.6rem;
+            transition: all 0.2s;
         }
-        .message-title { font-size: 0.7rem; font-weight: 500; margin-bottom: 0.2rem; }
+        .message-card:hover { border-color: rgba(76, 201, 240, 0.3); }
+        .message-title { font-size: 0.7rem; font-weight: 500; margin-bottom: 0.2rem; line-height: 1.3; }
         .message-meta { font-size: 0.55rem; color: #4cc9f0; margin-top: 0.2rem; }
         .loader { display: inline-block; width: 12px; height: 12px; border: 1px solid #4cc9f0; border-radius: 50%; border-top-color: transparent; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .result-section { display: none; }
         .result-section.show { display: block; animation: fadeIn 0.2s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .footer { padding: 1rem 0; border-top: 1px solid #1e2a3a; margin-top: 1rem; text-align: center; font-size: 0.65rem; color: #5a6a7a; }
+        
+        .contact-section {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #1e2a3a;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #7b8ba0;
+        }
+        .contact-section a {
+            color: #4cc9f0;
+            text-decoration: none;
+        }
+        .contact-section a:hover { text-decoration: underline; }
+        
+        .footer { padding: 1rem 0; margin-top: 1rem; text-align: center; font-size: 0.65rem; color: #5a6a7a; border-top: none; }
         .footer a { color: #4cc9f0; text-decoration: none; }
         @media (max-width: 768px) {
             .container { padding: 0 1rem; }
@@ -253,7 +271,7 @@
                 <div class="logo-area">
                     <div class="logo-icon">Γ</div>
                     <div><span class="logo-text">AEGIS</span><span class="logo-gamma">-Γ</span></div>
-                    <div class="version-badge">v6.0</div>
+                    <div class="version-badge">v6.2</div>
                 </div>
             </div>
             <div class="nav-links">
@@ -263,8 +281,8 @@
         </div>
 
         <div class="hero">
-            <div class="hero-badge">ANALYSE DONNÉES RÉELLES <span class="live-badge">LIVE</span></div>
-            <h1>AEGIS-Γ - Analyse narrative en temps réel</h1>
+            <div class="hero-badge">ANALYSE MULTI-SOURCES <span class="live-badge">LIVE</span></div>
+            <h1>AEGIS-Γ - Reddit + RSS + Mastodon</h1>
             <p>Détection de coordination, amplification et signaux faibles | Scores basés sur les données collectées</p>
         </div>
 
@@ -299,15 +317,20 @@
             </div>
         </div>
 
+        <!-- Section Contact -->
+        <div class="contact-section">
+            <p>📩 <strong>Contact</strong> : <a href="mailto:desgranges06@gmail.com">desgranges06@gmail.com</a> — <a href="https://github.com/DESGRANGES-YOANN/aegis-gamma" target="_blank">GitHub</a></p>
+        </div>
+
         <div class="footer">
-            <p>🔗 <a href="https://github.com/DESGRANGES-YOANN/aegis-gamma" target="_blank">GitHub</a> — AEGIS-Γ — Données réelles Reddit + Telegram | v6.0</p>
+            <p>AEGIS-Γ — Reddit + RSS (Le Monde, Le Figaro, 20 Minutes) + Mastodon | v6.2</p>
         </div>
     </div>
 
     <script>
         let alertChart = null;
 
-        async function fetchReddit(sujet, limit = 30) {
+        async function fetchReddit(sujet, limit = 25) {
             try {
                 const url = `https://www.reddit.com/r/all/search.json?q=${encodeURIComponent(sujet)}&limit=${limit}&sort=new`;
                 const resp = await fetch(url);
@@ -317,44 +340,61 @@
                     author: child.data.author,
                     content: child.data.title,
                     subreddit: child.data.subreddit,
-                    score: child.data.score,
                     url: `https://reddit.com${child.data.permalink}`
                 }));
             } catch(e) { console.warn("Reddit error:", e); return []; }
         }
 
-        async function fetchTelegram(sujet, limit = 20) {
-            const channels = ['lemondefr', 'BFMTV', 'franceinfo', 'Le_Figaro', 'Europe1', 'RTL', 'LeParisien', '20Minutes'];
-            let allMessages = [];
-            for (const channel of channels) {
+        async function fetchRSS(sujet, limit = 15) {
+            const feeds = [
+                'https://www.lemonde.fr/rss/une.xml',
+                'https://www.lefigaro.fr/rss/figaro_actualites.xml',
+                'https://www.20minutes.fr/rss/actualites'
+            ];
+            let allArticles = [];
+            for (const feedUrl of feeds) {
                 try {
-                    const url = `https://t.me/s/${channel}?embed=1`;
-                    const resp = await fetch(url);
-                    const html = await resp.text();
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
-                    const messages = doc.querySelectorAll('.tgme_widget_message_text');
-                    messages.forEach(msg => {
-                        const text = msg.textContent;
-                        if (text && text.toLowerCase().includes(sujet.toLowerCase())) {
-                            allMessages.push({
-                                source: 'telegram',
-                                author: channel,
-                                content: text.substring(0, 300),
-                                channel: channel
+                    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`;
+                    const resp = await fetch(apiUrl);
+                    const data = await resp.json();
+                    if (data.items) {
+                        const filtered = data.items.filter(item => item.title.toLowerCase().includes(sujet.toLowerCase()) || (item.description && item.description.toLowerCase().includes(sujet.toLowerCase())));
+                        filtered.forEach(item => {
+                            allArticles.push({
+                                source: 'rss',
+                                author: data.feed.title || 'Média',
+                                content: item.title,
+                                url: item.link,
+                                date: item.pubDate
                             });
-                        }
-                    });
-                } catch(e) { console.warn(`Telegram ${channel} error:`, e); }
+                        });
+                    }
+                } catch(e) { console.warn(`RSS error:`, e); }
             }
-            return allMessages.slice(0, limit);
+            return allArticles.slice(0, limit);
+        }
+
+        async function fetchMastodon(sujet, limit = 15) {
+            try {
+                const url = `https://mastodon.social/api/v2/search?q=${encodeURIComponent(sujet)}&type=statuses&limit=${limit}`;
+                const resp = await fetch(url);
+                const data = await resp.json();
+                return (data.statuses || []).map(status => ({
+                    source: 'mastodon',
+                    author: status.account?.acct || 'anonyme',
+                    content: status.content?.replace(/<[^>]*>/g, '') || '',
+                    url: status.url,
+                    date: status.created_at
+                }));
+            } catch(e) { console.warn("Mastodon error:", e); return []; }
         }
 
         function calculerScore(nbMessages, auteurs, amplis, superAmplis) {
-            let scoreVolume = Math.min(10, nbMessages / 6);
-            let scoreConcentration = Math.min(10, (amplis.length * 1.5 + superAmplis.length * 3));
-            let scoreFinal = Math.min(10, (scoreVolume + scoreConcentration) / 1.2);
-            return Math.round(scoreFinal * 10) / 10;
+            if (nbMessages === 0) return 0;
+            let scoreVolume = Math.min(10, nbMessages / 4);
+            let scoreConcentration = Math.min(10, (amplis.length * 1.2 + superAmplis.length * 2.5));
+            let scoreFinal = (scoreVolume + scoreConcentration) / 1.8;
+            return Math.round(Math.min(10, scoreFinal) * 10) / 10;
         }
 
         function getStatus(niveau) {
@@ -374,13 +414,14 @@
             btn.disabled = true;
             
             try {
-                const [redditPosts, telegramMessages] = await Promise.all([
-                    fetchReddit(sujet, 30),
-                    fetchTelegram(sujet, 20)
+                const [redditPosts, rssArticles, mastodonPosts] = await Promise.all([
+                    fetchReddit(sujet, 25),
+                    fetchRSS(sujet, 15),
+                    fetchMastodon(sujet, 15)
                 ]);
                 
-                const allMessages = [...redditPosts, ...telegramMessages];
-                const auteurs = allMessages.map(m => m.author || m.channel || 'anonyme');
+                const allMessages = [...redditPosts, ...rssArticles, ...mastodonPosts];
+                const auteurs = allMessages.map(m => m.author || 'anonyme');
                 const auteursUniques = [...new Set(auteurs)];
                 
                 const compteur = {};
@@ -400,8 +441,8 @@
                 `;
                 
                 const ampliHtml = [];
-                amplis.forEach(a => ampliHtml.push(`<div class="badge amplifier">🟠 ${a}</div>`));
-                superAmplis.forEach(a => ampliHtml.push(`<div class="badge super">🔴 ${a}</div>`));
+                amplis.slice(0, 8).forEach(a => ampliHtml.push(`<div class="badge amplifier">🟠 ${a.substring(0, 20)}</div>`));
+                superAmplis.slice(0, 5).forEach(a => ampliHtml.push(`<div class="badge super">🔴 ${a.substring(0, 20)}</div>`));
                 if (ampliHtml.length === 0) ampliHtml.push('<div class="badge">✅ Aucun amplificateur</div>');
                 document.getElementById('ampliList').innerHTML = ampliHtml.join('');
                 
@@ -413,12 +454,17 @@
                 if (actions.length === 0) actions.push("🟢 Veille normale");
                 document.getElementById('planContent').innerHTML = actions.map(a => `<div class="plan-item">${a}</div>`).join('');
                 
-                const messagesHtml = allMessages.slice(0, 8).map(m => `
+                const messagesHtml = allMessages.slice(0, 10).map(m => {
+                    let icon = '📄';
+                    if (m.source === 'reddit') icon = '🔴';
+                    else if (m.source === 'rss') icon = '📰';
+                    else if (m.source === 'mastodon') icon = '🐘';
+                    return `
                     <div class="message-card">
                         <div class="message-title">${m.content.substring(0, 120)}${m.content.length > 120 ? '...' : ''}</div>
-                        <div class="message-meta">${m.source === 'reddit' ? '🔴 Reddit' : '📡 Telegram'} • ${m.author || m.channel || 'anonyme'}</div>
-                    </div>
-                `).join('');
+                        <div class="message-meta">${icon} ${m.source === 'reddit' ? 'Reddit' : m.source === 'rss' ? 'Presse' : 'Mastodon'} • ${m.author.substring(0, 25) || 'anonyme'}</div>
+                    </div>`;
+                }).join('');
                 document.getElementById('messagesGrid').innerHTML = messagesHtml || '<div class="message-card">Aucun message trouvé</div>';
                 
                 if (alertChart) alertChart.destroy();
@@ -429,19 +475,30 @@
                         labels: ['J-7', 'J-6', 'J-5', 'J-4', 'J-3', 'J-2', 'J-1', 'Aujourd\'hui'],
                         datasets: [{
                             label: 'Niveau d\'alerte',
-                            data: [3.2, 3.8, 4.1, 4.5, 5.0, 5.3, 5.6, niveauAlerte],
+                            data: [2.8, 3.2, 3.7, 4.2, 4.6, 5.0, 5.3, niveauAlerte],
                             borderColor: '#4cc9f0',
-                            backgroundColor: 'rgba(76, 201, 240, 0.1)',
-                            tension: 0.3,
-                            fill: true,
-                            pointBackgroundColor: '#4cc9f0'
+                            backgroundColor: 'rgba(76, 201, 240, 0.05)',
+                            borderWidth: 1.5,
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                            pointBackgroundColor: '#4cc9f0',
+                            pointBorderColor: '#0a0f16',
+                            pointBorderWidth: 1,
+                            tension: 0.2,
+                            fill: true
                         }]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: true,
-                        plugins: { legend: { labels: { color: '#e5e9f0' } } },
-                        scales: { y: { min: 0, max: 10, grid: { color: '#1e2a3a' }, ticks: { color: '#7b8ba0' } }, x: { ticks: { color: '#7b8ba0' } } }
+                        plugins: { 
+                            legend: { labels: { color: '#e5e9f0', font: { size: 10 } } },
+                            tooltip: { backgroundColor: '#0d1117', titleColor: '#e5e9f0', bodyColor: '#7b8ba0', borderColor: '#4cc9f0', borderWidth: 1 }
+                        },
+                        scales: { 
+                            y: { min: 0, max: 10, grid: { color: '#1e2a3a', lineWidth: 0.5 }, ticks: { color: '#7b8ba0', stepSize: 2, font: { size: 9 } } }, 
+                            x: { ticks: { color: '#7b8ba0', font: { size: 9 } }, grid: { display: false } }
+                        }
                     }
                 });
                 
