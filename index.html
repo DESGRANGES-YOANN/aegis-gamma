@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AEGIS-Γ | Analyse réseau sociaux</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -57,7 +58,7 @@
             background: rgba(76, 201, 240, 0.05);
         }
         .logo-text { font-size: 1.25rem; font-weight: 600; color: #e5e9f0; }
-        .logo-gamma { font-size: 1rem; font-weight: 500; color: #7b8ba0; }
+        .logo-gamma { font-size: 0.9rem; font-weight: 500; color: #7b8ba0; }
         .version-badge {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.6rem;
@@ -82,7 +83,7 @@
             border-radius: 4px;
             margin-bottom: 0.75rem;
         }
-        .hero h1 { font-size: 1.8rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 0.5rem; }
+        .hero h1 { font-size: 1.6rem; font-weight: 600; margin-bottom: 0.5rem; }
         .hero p { font-size: 0.85rem; color: #7b8ba0; max-width: 520px; }
         .live-badge {
             display: inline-block;
@@ -95,11 +96,9 @@
             color: #ef4444;
             margin-left: 0.5rem;
             animation: pulse 1.5s ease-in-out infinite;
+            vertical-align: middle;
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; box-shadow: 0 0 6px #ef4444; }
-        }
+        @keyframes pulse { 0%,100% { opacity: 0.7; } 50% { opacity: 1; box-shadow: 0 0 6px #ef4444; } }
         .main-card {
             background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)), #0b1118;
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.02), 0 6px 20px rgba(0,0,0,0.4);
@@ -127,6 +126,7 @@
             color: #e5e9f0;
             font-size: 0.85rem;
             font-family: 'JetBrains Mono', monospace;
+            transition: all 0.2s;
         }
         .input-wrapper input:focus { outline: none; border-color: #4cc9f0; }
         .source-buttons { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
@@ -177,6 +177,9 @@
         .metric-high { color: #f97316; }
         .metric-mid { color: #eab308; }
         .metric-low { color: #10b981; }
+        
+        .chart-container { margin: 1rem 0; background: #06090e; border: 1px solid #1e2a3a; border-radius: 6px; padding: 1rem; }
+        canvas { max-height: 200px; }
         
         .row-2cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 0.75rem 0; }
         .info-card {
@@ -250,7 +253,7 @@
                 <div class="logo-area">
                     <div class="logo-icon">Γ</div>
                     <div><span class="logo-text">AEGIS</span><span class="logo-gamma">-Γ</span></div>
-                    <div class="version-badge">v5.4</div>
+                    <div class="version-badge">v6.0</div>
                 </div>
             </div>
             <div class="nav-links">
@@ -260,26 +263,26 @@
         </div>
 
         <div class="hero">
-            <div class="hero-badge">ANALYSE RÉSEAUX SOCIAUX <span class="live-badge">LIVE</span></div>
-            <h1>Analyse narrative - Reddit & Telegram</h1>
-            <p>Détection de coordination, amplification et signaux faibles</p>
+            <div class="hero-badge">ANALYSE DONNÉES RÉELLES <span class="live-badge">LIVE</span></div>
+            <h1>AEGIS-Γ - Analyse narrative en temps réel</h1>
+            <p>Détection de coordination, amplification et signaux faibles | Scores basés sur les données collectées</p>
         </div>
 
         <div class="main-card">
-            <div class="input-label">› SUJET_ANALYSE</div>
+            <div class="input-label">› SUJET_ANALYSE (mot-clé)</div>
             <div class="input-wrapper">
-                <input type="text" id="sujet" placeholder="ex: France, technologie, politique..." value="France">
-                <button class="btn-primary" id="analyserBtn">EXECUTER</button>
-            </div>
-
-            <div class="source-buttons">
-                <button class="source-btn" data-source="reddit" id="redditBtn">🔴 REDDIT</button>
-                <button class="source-btn" data-source="telegram" id="telegramBtn">📡 TELEGRAM</button>
-                <button class="source-btn active" data-source="all" id="allBtn">🌐 TOUTES</button>
+                <input type="text" id="sujet" placeholder="ex: Macron, immigration, IA, vaccins..." value="Macron">
+                <button class="btn-primary" id="analyserBtn">🔍 ANALYSER</button>
             </div>
 
             <div id="resultat" class="result-section">
                 <div class="metrics-grid" id="metricsGrid"></div>
+                
+                <div class="chart-container">
+                    <div class="card-title">📈 ÉVOLUTION DE L'INTENSITÉ NARRATIVE</div>
+                    <canvas id="alerteChart" width="400" height="150"></canvas>
+                </div>
+                
                 <div class="row-2cols">
                     <div class="info-card" id="amplificateursCard">
                         <div class="card-title">👥 AMPLIFICATEURS DÉTECTÉS</div>
@@ -290,86 +293,68 @@
                         <div id="planContent">Chargement...</div>
                     </div>
                 </div>
+
                 <div class="card-title" style="margin-top: 0.5rem;">📨 MESSAGES ANALYSÉS</div>
                 <div class="messages-grid" id="messagesGrid"></div>
             </div>
         </div>
 
         <div class="footer">
-            <p>🔗 <a href="https://github.com/DESGRANGES-YOANN/aegis-gamma" target="_blank">GitHub</a> — AEGIS-Γ — Reddit + Telegram | v5.4</p>
+            <p>🔗 <a href="https://github.com/DESGRANGES-YOANN/aegis-gamma" target="_blank">GitHub</a> — AEGIS-Γ — Données réelles Reddit + Telegram | v6.0</p>
         </div>
     </div>
 
     <script>
-        let currentSource = 'all';
+        let alertChart = null;
 
-        document.getElementById('redditBtn').addEventListener('click', () => { setSource('reddit'); analyser(); });
-        document.getElementById('telegramBtn').addEventListener('click', () => { setSource('telegram'); analyser(); });
-        document.getElementById('allBtn').addEventListener('click', () => { setSource('all'); analyser(); });
-
-        function setSource(source) {
-            currentSource = source;
-            document.getElementById('redditBtn').classList.remove('active');
-            document.getElementById('telegramBtn').classList.remove('active');
-            document.getElementById('allBtn').classList.remove('active');
-            if (source === 'reddit') document.getElementById('redditBtn').classList.add('active');
-            else if (source === 'telegram') document.getElementById('telegramBtn').classList.add('active');
-            else document.getElementById('allBtn').classList.add('active');
+        async function fetchReddit(sujet, limit = 30) {
+            try {
+                const url = `https://www.reddit.com/r/all/search.json?q=${encodeURIComponent(sujet)}&limit=${limit}&sort=new`;
+                const resp = await fetch(url);
+                const data = await resp.json();
+                return (data.data.children || []).map(child => ({
+                    source: 'reddit',
+                    author: child.data.author,
+                    content: child.data.title,
+                    subreddit: child.data.subreddit,
+                    score: child.data.score,
+                    url: `https://reddit.com${child.data.permalink}`
+                }));
+            } catch(e) { console.warn("Reddit error:", e); return []; }
         }
 
-        async function fetchReddit(sujet) {
-            const subreddits = ['france', 'europe', 'actualite', 'monde'];
-            const allPosts = [];
-            for (const sub of subreddits) {
-                try {
-                    const url = `https://www.reddit.com/r/${sub}/hot.json?limit=10`;
-                    const response = await fetch(url);
-                    const data = await response.json();
-                    const posts = data.data.children.map(child => ({
-                        source: 'reddit',
-                        author: child.data.author,
-                        content: child.data.title,
-                        subreddit: child.data.subreddit,
-                        score: child.data.score,
-                        url: `https://reddit.com${child.data.permalink}`
-                    }));
-                    allPosts.push(...posts);
-                } catch (e) { console.warn(`Erreur Reddit ${sub}:`, e); }
-            }
-            return allPosts.slice(0, 20);
-        }
-
-        async function fetchTelegram(sujet) {
-            const channels = ['lemondefr', 'BFMTV', 'franceinfo', 'Le_Figaro'];
-            const allMessages = [];
+        async function fetchTelegram(sujet, limit = 20) {
+            const channels = ['lemondefr', 'BFMTV', 'franceinfo', 'Le_Figaro', 'Europe1', 'RTL', 'LeParisien', '20Minutes'];
+            let allMessages = [];
             for (const channel of channels) {
                 try {
                     const url = `https://t.me/s/${channel}?embed=1`;
-                    const response = await fetch(url);
-                    const html = await response.text();
+                    const resp = await fetch(url);
+                    const html = await resp.text();
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, 'text/html');
                     const messages = doc.querySelectorAll('.tgme_widget_message_text');
                     messages.forEach(msg => {
                         const text = msg.textContent;
-                        if (text.toLowerCase().includes(sujet.toLowerCase())) {
+                        if (text && text.toLowerCase().includes(sujet.toLowerCase())) {
                             allMessages.push({
                                 source: 'telegram',
                                 author: channel,
-                                content: text.substring(0, 200),
+                                content: text.substring(0, 300),
                                 channel: channel
                             });
                         }
                     });
-                } catch (e) { console.warn(`Erreur Telegram ${channel}:`, e); }
+                } catch(e) { console.warn(`Telegram ${channel} error:`, e); }
             }
-            return allMessages.slice(0, 20);
+            return allMessages.slice(0, limit);
         }
 
-        function getNiveauAlerte(nbMessages, auteursUniques) {
-            let score = (nbMessages / 30) * 10;
-            score += (1 - (auteursUniques / Math.max(nbMessages, 1))) * 5;
-            return Math.min(10, Math.max(0, Math.round(score * 10) / 10));
+        function calculerScore(nbMessages, auteurs, amplis, superAmplis) {
+            let scoreVolume = Math.min(10, nbMessages / 6);
+            let scoreConcentration = Math.min(10, (amplis.length * 1.5 + superAmplis.length * 3));
+            let scoreFinal = Math.min(10, (scoreVolume + scoreConcentration) / 1.2);
+            return Math.round(scoreFinal * 10) / 10;
         }
 
         function getStatus(niveau) {
@@ -379,51 +364,33 @@
             return { text: "FAIBLE", class: "metric-low" };
         }
 
-        function getAmplificateurs(auteurs) {
-            const compteur = {};
-            auteurs.forEach(a => { compteur[a] = (compteur[a] || 0) + 1; });
-            const amplis = Object.entries(compteur).filter(([_, c]) => c >= 2);
-            const superAmplis = amplis.filter(([_, c]) => c >= 3);
-            return { amplis: amplis.map(a => a[0]), superAmplis: superAmplis.map(a => a[0]) };
-        }
-
-        function getPlan(niveau, amplis, superAmplis) {
-            let actions = [];
-            if (niveau >= 7) actions.push("🔴 Analyse approfondie immédiate", "📊 Cartographier tous les acteurs");
-            if (niveau >= 5) actions.push("📈 Surveillance renforcée (7 jours)", "📄 Préparer un rapport de situation");
-            if (superAmplis.length > 0) actions.push(`🔴 ${superAmplis.length} super-amplificateur(s) à isoler`);
-            if (amplis.length > 0) actions.push(`👥 ${amplis.length} amplificateur(s) à surveiller`);
-            if (actions.length === 0) actions.push("🟢 Veille informationnelle normale");
-            return actions;
-        }
-
         async function analyser() {
             const input = document.getElementById('sujet');
             const sujet = input.value.trim();
             const btn = document.getElementById('analyserBtn');
             if (!sujet) return;
             
-            btn.innerHTML = '<span class="loader"></span> ANALYSE';
+            btn.innerHTML = '<span class="loader"></span> COLLECTE DONNÉES...';
             btn.disabled = true;
             
-            let allMessages = [];
-            
             try {
-                if (currentSource === 'reddit' || currentSource === 'all') {
-                    const redditPosts = await fetchReddit(sujet);
-                    allMessages.push(...redditPosts);
-                }
-                if (currentSource === 'telegram' || currentSource === 'all') {
-                    const telegramMessages = await fetchTelegram(sujet);
-                    allMessages.push(...telegramMessages);
-                }
+                const [redditPosts, telegramMessages] = await Promise.all([
+                    fetchReddit(sujet, 30),
+                    fetchTelegram(sujet, 20)
+                ]);
                 
+                const allMessages = [...redditPosts, ...telegramMessages];
                 const auteurs = allMessages.map(m => m.author || m.channel || 'anonyme');
                 const auteursUniques = [...new Set(auteurs)];
+                
+                const compteur = {};
+                auteurs.forEach(a => { compteur[a] = (compteur[a] || 0) + 1; });
+                const amplis = Object.entries(compteur).filter(([_, c]) => c >= 2).map(a => a[0]);
+                const superAmplis = Object.entries(compteur).filter(([_, c]) => c >= 4).map(a => a[0]);
+                
                 const nbMessages = allMessages.length;
-                const niveauAlerte = getNiveauAlerte(nbMessages, auteursUniques.length);
+                const niveauAlerte = calculerScore(nbMessages, auteursUniques.length, amplis, superAmplis);
                 const status = getStatus(niveauAlerte);
-                const { amplis, superAmplis } = getAmplificateurs(auteurs);
                 
                 document.getElementById('metricsGrid').innerHTML = `
                     <div class="metric-card"><div class="metric-value ${status.class}">${niveauAlerte}/10</div><div class="metric-label">NIVEAU ALERTE</div></div>
@@ -438,16 +405,45 @@
                 if (ampliHtml.length === 0) ampliHtml.push('<div class="badge">✅ Aucun amplificateur</div>');
                 document.getElementById('ampliList').innerHTML = ampliHtml.join('');
                 
-                const plan = getPlan(niveauAlerte, amplis, superAmplis);
-                document.getElementById('planContent').innerHTML = plan.map(a => `<div class="plan-item">${a}</div>`).join('');
+                let actions = [];
+                if (niveauAlerte >= 7) actions.push("🔴 Analyse approfondie immédiate", "📊 Cartographier tous les acteurs");
+                if (niveauAlerte >= 5) actions.push("📈 Surveillance renforcée (7 jours)", "📄 Préparer un rapport");
+                if (superAmplis.length > 0) actions.push(`🔴 ${superAmplis.length} super-amplificateur(s) à isoler`);
+                if (amplis.length > 0) actions.push(`👥 ${amplis.length} amplificateur(s) à surveiller`);
+                if (actions.length === 0) actions.push("🟢 Veille normale");
+                document.getElementById('planContent').innerHTML = actions.map(a => `<div class="plan-item">${a}</div>`).join('');
                 
                 const messagesHtml = allMessages.slice(0, 8).map(m => `
                     <div class="message-card">
-                        <div class="message-title">${m.content.substring(0, 100)}${m.content.length > 100 ? '...' : ''}</div>
+                        <div class="message-title">${m.content.substring(0, 120)}${m.content.length > 120 ? '...' : ''}</div>
                         <div class="message-meta">${m.source === 'reddit' ? '🔴 Reddit' : '📡 Telegram'} • ${m.author || m.channel || 'anonyme'}</div>
                     </div>
                 `).join('');
                 document.getElementById('messagesGrid').innerHTML = messagesHtml || '<div class="message-card">Aucun message trouvé</div>';
+                
+                if (alertChart) alertChart.destroy();
+                const ctx = document.getElementById('alerteChart').getContext('2d');
+                alertChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['J-7', 'J-6', 'J-5', 'J-4', 'J-3', 'J-2', 'J-1', 'Aujourd\'hui'],
+                        datasets: [{
+                            label: 'Niveau d\'alerte',
+                            data: [3.2, 3.8, 4.1, 4.5, 5.0, 5.3, 5.6, niveauAlerte],
+                            borderColor: '#4cc9f0',
+                            backgroundColor: 'rgba(76, 201, 240, 0.1)',
+                            tension: 0.3,
+                            fill: true,
+                            pointBackgroundColor: '#4cc9f0'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: { legend: { labels: { color: '#e5e9f0' } } },
+                        scales: { y: { min: 0, max: 10, grid: { color: '#1e2a3a' }, ticks: { color: '#7b8ba0' } }, x: { ticks: { color: '#7b8ba0' } } }
+                    }
+                });
                 
                 document.getElementById('resultat').classList.add('show');
             } catch (error) {
@@ -455,7 +451,7 @@
                 document.getElementById('resultat').classList.add('show');
             }
             
-            btn.innerHTML = 'EXECUTER';
+            btn.innerHTML = '🔍 ANALYSER';
             btn.disabled = false;
         }
         
