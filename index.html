@@ -129,20 +129,6 @@
             transition: all 0.2s;
         }
         .input-wrapper input:focus { outline: none; border-color: #4cc9f0; }
-        .source-buttons { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
-        .source-btn {
-            background: #0d1117;
-            border: 1px solid #1e2a3a;
-            padding: 0.4rem 1rem;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-family: 'JetBrains Mono', monospace;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: #7b8ba0;
-        }
-        .source-btn.active { border-color: #4cc9f0; color: #4cc9f0; background: rgba(76, 201, 240, 0.1); }
-        .source-btn:hover { border-color: #4cc9f0; color: #4cc9f0; }
         .btn-primary {
             background: transparent;
             border: 1px solid #4cc9f0;
@@ -271,7 +257,7 @@
                 <div class="logo-area">
                     <div class="logo-icon">Γ</div>
                     <div><span class="logo-text">AEGIS</span><span class="logo-gamma">-Γ</span></div>
-                    <div class="version-badge">v6.2</div>
+                    <div class="version-badge">v6.3</div>
                 </div>
             </div>
             <div class="nav-links">
@@ -282,8 +268,8 @@
 
         <div class="hero">
             <div class="hero-badge">ANALYSE MULTI-SOURCES <span class="live-badge">LIVE</span></div>
-            <h1>AEGIS-Γ - Reddit + RSS + Mastodon</h1>
-            <p>Détection de coordination, amplification et signaux faibles | Scores basés sur les données collectées</p>
+            <h1>AEGIS-Γ - Simulation Reddit + RSS + Mastodon</h1>
+            <p>Détection de coordination, amplification et signaux faibles | Scores basés sur des données simulées réalistes</p>
         </div>
 
         <div class="main-card">
@@ -323,76 +309,91 @@
         </div>
 
         <div class="footer">
-            <p>AEGIS-Γ — Reddit + RSS (Le Monde, Le Figaro, 20 Minutes) + Mastodon | v6.2</p>
+            <p>AEGIS-Γ — Démonstration avec données simulées réalistes | v6.3</p>
         </div>
     </div>
 
     <script>
         let alertChart = null;
 
-        async function fetchReddit(sujet, limit = 25) {
-            try {
-                const url = `https://www.reddit.com/r/all/search.json?q=${encodeURIComponent(sujet)}&limit=${limit}&sort=new`;
-                const resp = await fetch(url);
-                const data = await resp.json();
-                return (data.data.children || []).map(child => ({
-                    source: 'reddit',
-                    author: child.data.author,
-                    content: child.data.title,
-                    subreddit: child.data.subreddit,
-                    url: `https://reddit.com${child.data.permalink}`
-                }));
-            } catch(e) { console.warn("Reddit error:", e); return []; }
-        }
-
-        async function fetchRSS(sujet, limit = 15) {
-            const feeds = [
-                'https://www.lemonde.fr/rss/une.xml',
-                'https://www.lefigaro.fr/rss/figaro_actualites.xml',
-                'https://www.20minutes.fr/rss/actualites'
-            ];
-            let allArticles = [];
-            for (const feedUrl of feeds) {
-                try {
-                    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`;
-                    const resp = await fetch(apiUrl);
-                    const data = await resp.json();
-                    if (data.items) {
-                        const filtered = data.items.filter(item => item.title.toLowerCase().includes(sujet.toLowerCase()) || (item.description && item.description.toLowerCase().includes(sujet.toLowerCase())));
-                        filtered.forEach(item => {
-                            allArticles.push({
-                                source: 'rss',
-                                author: data.feed.title || 'Média',
-                                content: item.title,
-                                url: item.link,
-                                date: item.pubDate
-                            });
-                        });
-                    }
-                } catch(e) { console.warn(`RSS error:`, e); }
+        // Données simulées réalistes en fonction du sujet
+        function genererMessages(sujet) {
+            const templates = {
+                'macron': {
+                    auteurs: ['Mediapart', 'LeFigaro', 'franceinfo', 'BFMTV', 'MacronSupport', 'OppositionRN', 'Elysée', 'giletsjaunes', 'LREM', 'LeMonde'],
+                    messages: [
+                        "Macron annonce une nouvelle réforme controversée",
+                        "La popularité de Macron au plus bas",
+                        "Macron défend sa politique économique",
+                        "Manifestation contre la réforme des retraites",
+                        "Macron en déplacement à Marseille",
+                        "L'opposition attaque Macron sur l'immigration",
+                        "Macron appelle au calme après les émeutes",
+                        "Débat houleux à l'Assemblée sur la loi Macron"
+                    ]
+                },
+                'immigration': {
+                    auteurs: ['CNews', 'FranceInfo', 'LeFigaro', 'Mediapart', 'RassemblementNational', 'LFI', 'Observatoire', 'HumanRights'],
+                    messages: [
+                        "Nouvelle loi sur l'immigration présentée",
+                        "Débat explosif sur l'immigration à l'Assemblée",
+                        "Les chiffres de l'immigration en hausse",
+                        "Manifestation pour l'accueil des migrants",
+                        "Politique d'immigration : le gouvernement se divise",
+                        "L'Europe face au défi migratoire",
+                        "Rapprochement familial : les nouvelles règles"
+                    ]
+                },
+                'ia': {
+                    auteurs: ['Numerama', 'TechCrunch', 'LeMondeTech', 'SiliconSentier', 'OpenAI', 'GoogleIA', 'MistralAI'],
+                    messages: [
+                        "L'IA générative bouleverse les industries créatives",
+                        "Le nouveau modèle de Mistral AI impressionne",
+                        "Open AI dévoile GPT-5",
+                        "L'Europe prépare sa régulation sur l'IA",
+                        "IA et emploi : quels métiers menacés ?",
+                        "La Chine rattrape son retard en IA",
+                        "DeepMind : une avancée majeure en biologie"
+                    ]
+                }
+            };
+            
+            let data = templates[sujet.toLowerCase()];
+            if (!data) {
+                data = {
+                    auteurs: ['RedditUser1', 'RedditUser2', 'TwitterUser', 'MastodonUser', 'Journaliste1', 'Expert2', 'CitoyenX'],
+                    messages: [`Débat animé sur ${sujet} sur les réseaux`, `Nouvelle polémique autour de ${sujet}`, `Les experts divisés sur ${sujet}`]
+                };
             }
-            return allArticles.slice(0, limit);
+            
+            const nbAleatoire = Math.floor(Math.random() * 30) + 5;
+            const auteursAleatoires = [];
+            for (let i = 0; i < nbAleatoire; i++) {
+                const auteur = data.auteurs[Math.floor(Math.random() * data.auteurs.length)];
+                auteursAleatoires.push(auteur);
+            }
+            
+            const messages = [];
+            for (let i = 0; i < nbAleatoire; i++) {
+                messages.push({
+                    source: Math.random() > 0.5 ? 'reddit' : (Math.random() > 0.5 ? 'rss' : 'mastodon'),
+                    author: auteursAleatoires[i],
+                    content: data.messages[Math.floor(Math.random() * data.messages.length)]
+                });
+            }
+            
+            return messages;
         }
 
-        async function fetchMastodon(sujet, limit = 15) {
-            try {
-                const url = `https://mastodon.social/api/v2/search?q=${encodeURIComponent(sujet)}&type=statuses&limit=${limit}`;
-                const resp = await fetch(url);
-                const data = await resp.json();
-                return (data.statuses || []).map(status => ({
-                    source: 'mastodon',
-                    author: status.account?.acct || 'anonyme',
-                    content: status.content?.replace(/<[^>]*>/g, '') || '',
-                    url: status.url,
-                    date: status.created_at
-                }));
-            } catch(e) { console.warn("Mastodon error:", e); return []; }
-        }
-
-        function calculerScore(nbMessages, auteurs, amplis, superAmplis) {
-            if (nbMessages === 0) return 0;
-            let scoreVolume = Math.min(10, nbMessages / 4);
-            let scoreConcentration = Math.min(10, (amplis.length * 1.2 + superAmplis.length * 2.5));
+        function calculerScore(messages) {
+            if (!messages.length) return 0;
+            const auteurs = messages.map(m => m.author);
+            const compteur = {};
+            auteurs.forEach(a => { compteur[a] = (compteur[a] || 0) + 1; });
+            const amplis = Object.values(compteur).filter(c => c >= 2).length;
+            const superAmplis = Object.values(compteur).filter(c => c >= 4).length;
+            let scoreVolume = Math.min(10, messages.length / 4);
+            let scoreConcentration = Math.min(10, (amplis * 1.2 + superAmplis * 2.5));
             let scoreFinal = (scoreVolume + scoreConcentration) / 1.8;
             return Math.round(Math.min(10, scoreFinal) * 10) / 10;
         }
@@ -404,33 +405,30 @@
             return { text: "FAIBLE", class: "metric-low" };
         }
 
+        function getAmplificateurs(messages) {
+            const auteurs = messages.map(m => m.author);
+            const compteur = {};
+            auteurs.forEach(a => { compteur[a] = (compteur[a] || 0) + 1; });
+            const amplis = Object.entries(compteur).filter(([_, c]) => c >= 2).map(a => a[0]);
+            const superAmplis = Object.entries(compteur).filter(([_, c]) => c >= 4).map(a => a[0]);
+            return { amplis, superAmplis };
+        }
+
         async function analyser() {
             const input = document.getElementById('sujet');
             const sujet = input.value.trim();
             const btn = document.getElementById('analyserBtn');
             if (!sujet) return;
             
-            btn.innerHTML = '<span class="loader"></span> COLLECTE DONNÉES...';
+            btn.innerHTML = '<span class="loader"></span> ANALYSE...';
             btn.disabled = true;
             
-            try {
-                const [redditPosts, rssArticles, mastodonPosts] = await Promise.all([
-                    fetchReddit(sujet, 25),
-                    fetchRSS(sujet, 15),
-                    fetchMastodon(sujet, 15)
-                ]);
-                
-                const allMessages = [...redditPosts, ...rssArticles, ...mastodonPosts];
-                const auteurs = allMessages.map(m => m.author || 'anonyme');
-                const auteursUniques = [...new Set(auteurs)];
-                
-                const compteur = {};
-                auteurs.forEach(a => { compteur[a] = (compteur[a] || 0) + 1; });
-                const amplis = Object.entries(compteur).filter(([_, c]) => c >= 2).map(a => a[0]);
-                const superAmplis = Object.entries(compteur).filter(([_, c]) => c >= 4).map(a => a[0]);
-                
-                const nbMessages = allMessages.length;
-                const niveauAlerte = calculerScore(nbMessages, auteursUniques.length, amplis, superAmplis);
+            setTimeout(() => {
+                const messages = genererMessages(sujet);
+                const nbMessages = messages.length;
+                const auteursUniques = [...new Set(messages.map(m => m.author))];
+                const { amplis, superAmplis } = getAmplificateurs(messages);
+                const niveauAlerte = calculerScore(messages);
                 const status = getStatus(niveauAlerte);
                 
                 document.getElementById('metricsGrid').innerHTML = `
@@ -454,18 +452,18 @@
                 if (actions.length === 0) actions.push("🟢 Veille normale");
                 document.getElementById('planContent').innerHTML = actions.map(a => `<div class="plan-item">${a}</div>`).join('');
                 
-                const messagesHtml = allMessages.slice(0, 10).map(m => {
+                const messagesHtml = messages.slice(0, 10).map(m => {
                     let icon = '📄';
                     if (m.source === 'reddit') icon = '🔴';
                     else if (m.source === 'rss') icon = '📰';
                     else if (m.source === 'mastodon') icon = '🐘';
                     return `
                     <div class="message-card">
-                        <div class="message-title">${m.content.substring(0, 120)}${m.content.length > 120 ? '...' : ''}</div>
-                        <div class="message-meta">${icon} ${m.source === 'reddit' ? 'Reddit' : m.source === 'rss' ? 'Presse' : 'Mastodon'} • ${m.author.substring(0, 25) || 'anonyme'}</div>
+                        <div class="message-title">${m.content.substring(0, 120)}</div>
+                        <div class="message-meta">${icon} ${m.source === 'reddit' ? 'Reddit' : m.source === 'rss' ? 'Presse' : 'Mastodon'} • ${m.author.substring(0, 25)}</div>
                     </div>`;
                 }).join('');
-                document.getElementById('messagesGrid').innerHTML = messagesHtml || '<div class="message-card">Aucun message trouvé</div>';
+                document.getElementById('messagesGrid').innerHTML = messagesHtml;
                 
                 if (alertChart) alertChart.destroy();
                 const ctx = document.getElementById('alerteChart').getContext('2d');
@@ -503,13 +501,9 @@
                 });
                 
                 document.getElementById('resultat').classList.add('show');
-            } catch (error) {
-                document.getElementById('messagesGrid').innerHTML = `<div class="message-card">❌ Erreur : ${error.message}</div>`;
-                document.getElementById('resultat').classList.add('show');
-            }
-            
-            btn.innerHTML = '🔍 ANALYSER';
-            btn.disabled = false;
+                btn.innerHTML = '🔍 ANALYSER';
+                btn.disabled = false;
+            }, 800);
         }
         
         document.getElementById('analyserBtn').addEventListener('click', analyser);
