@@ -350,7 +350,7 @@
             btn.disabled = true;
             
             try {
-                const url = `http://localhost:5000/news?q=${encodeURIComponent(sujet)}`;
+                const url = `https://aegis-gamma.onrender.com/news?q=${encodeURIComponent(sujet)}`;
                 const response = await fetch(url);
                 const data = await response.json();
                 
