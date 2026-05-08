@@ -1,1 +1,4 @@
+flask
+flask-cors
+requests
 numpy>=1.21.0
